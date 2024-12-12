@@ -4,6 +4,7 @@ import PathNav from "@/components/main/admin/PathNav";
 import CustomButton from "@/components/main/CustomButton";
 import InputField from "@/components/main/InputField";
 import Loading from "@/components/main/Loading";
+import MediaSelector from "@/components/main/MediaSelector";
 import SelectField from "@/components/main/SelectField";
 import WrapperBody from "@/components/wrapper/WrapperBody";
 import { adminRoutes } from "@/data";
@@ -129,12 +130,13 @@ const CategoryCreate = () => {
             handleValueChange={(e) => {
               setForm({
                 ...form,
-                parent: e.target.value,
-                errors: { ...form.errors, parent: null },
+                media: e.target.value,
+                errors: { ...form.errors },
               });
             }}
-            error={form.errors.parent}
           />
+
+          <MediaSelector />
         </section>
 
         <section className="col-span-1 md:col-span-2 flex flex-col min-w-[300px] flex-1 w-full gap-5">
