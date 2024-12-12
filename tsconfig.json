@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["types/next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/main/nav/admin/AdminNavigation.jsx", "components/main/nav/user/Navigation.jsx"],
   "exclude": ["node_modules"]
 }

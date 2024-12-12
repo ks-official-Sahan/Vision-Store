@@ -9,18 +9,43 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mantine/carousel": "^7.15.0",
+    "@mantine/code-highlight": "^7.15.0",
+    "@mantine/core": "^7.15.0",
+    "@mantine/dropzone": "^7.15.0",
+    "@mantine/form": "^7.15.0",
+    "@mantine/hooks": "^7.15.0",
+    "@mantine/modals": "^7.15.0",
+    "@mantine/notifications": "^7.15.0",
+    "@mantine/nprogress": "^7.15.0",
+    "@mantine/spotlight": "^7.15.0",
+    "@nextui-org/react": "^2.4.8",
+    "@radix-ui/react-slot": "^1.1.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "embla-carousel-react": "7.1.0",
+    "framer-motion": "^11.13.5",
+    "lucide-react": "^0.468.0",
+    "mini-svg-data-uri": "^1.4.4",
+    "next": "15.0.4",
+    "next-themes": "^0.4.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.0.4"
+    "scss": "^0.2.4",
+    "tailwind-merge": "^2.5.5",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
     "eslint": "^8",
-    "eslint-config-next": "15.0.4"
+    "eslint-config-next": "15.0.4",
+    "postcss": "^8.4.49",
+    "postcss-preset-mantine": "^1.17.0",
+    "postcss-simple-vars": "^7.0.1",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }
