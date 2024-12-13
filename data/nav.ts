@@ -44,32 +44,32 @@ export const adminRoutes = {
 
   // MAIN PAGES
   DASHBOARD: { title: "Dashboard", path: "/admin/dashboard" },
-  PRODUCTS: { title: "Products", path: "/admin/products" },
-  CATEGORIES: { title: "Categories", path: "/admin/categories" },
-  ORDERS: { title: "Orders", path: "/admin/orders" },
-  MEDIA: { title: "Media", path: "/admin/media" },
-  USERS: { title: "Users", path: "/admin/users" },
+  PRODUCTS: { title: "Products", path: "/admin/collections/products" },
+  CATEGORIES: { title: "Categories", path: "/admin/collections/categories" },
+  ORDERS: { title: "Orders", path: "/admin/collections/orders" },
+  MEDIA: { title: "Media", path: "/admin/collections/media" },
+  USERS: { title: "Users", path: "/admin/collections/users" },
   PROFILE: { title: "Profile", path: "/admin/profile" },
 
   // SUB PAGES - CREATE
-  CREATE_PRODUCT: { title: "Create Product", path: "/admin/products/create" },
+  CREATE_PRODUCT: { title: "Create Product", path: "/admin/collections/products/create" },
   CREATE_CATEGORY: {
     title: "Create Category",
-    path: "/admin/categories/create",
+    path: "/admin/collections/categories/create",
   },
-  CREATE_ORDER: { title: "Create Order", path: "/admin/orders/create" },
-  CREATE_MEDIA: { title: "Create Media", path: "/admin/media/create" },
-  CREATE_USER: { title: "Create User", path: "/admin/users/create" },
+  CREATE_ORDER: { title: "Create Order", path: "/admin/collections/orders/create" },
+  CREATE_MEDIA: { title: "Create Media", path: "/admin/collections/media/create" },
+  CREATE_USER: { title: "Create User", path: "/admin/collections/users/create" },
 
   // SUB PAGES - edit
-  EDIT_PRODUCT: { title: "Edit Product", path: "/admin/products/edit?id=" },
+  EDIT_PRODUCT: { title: "Edit Product", path: "/admin/collections/products/edit?id=" },
   EDIT_CATEGORY: {
     title: "Edit Category",
-    path: "/admin/categories/edit?id=",
+    path: "/admin/collections/categories/edit?id=",
   },
-  EDIT_ORDER: { title: "Edit Order", path: "/admin/orders/edit?id=" },
-  EDIT_MEDIA: { title: "Edit Media", path: "/admin/media/edit?id=" },
-  EDIT_USER: { title: "Edit User", path: "/admin/users/edit?id=" },
+  EDIT_ORDER: { title: "Edit Order", path: "/admin/collections/orders/edit?id=" },
+  EDIT_MEDIA: { title: "Edit Media", path: "/admin/collections/media/edit?id=" },
+  EDIT_USER: { title: "Edit User", path: "/admin/collections/users/edit?id=" },
 };
 
 const adminNavbarItems = [

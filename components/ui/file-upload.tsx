@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { IconUpload } from "@tabler/icons-react";
 import { useDropzone } from "react-dropzone";
+import { Button } from "@nextui-org/react";
 
 const mainVariant = {
   initial: {
@@ -27,14 +28,24 @@ const secondaryVariant = {
 
 export const FileUpload = ({
   onChange,
-}: {
+}: // onRemove,
+{
   onChange?: (files: File[]) => void;
+  // onRemove?: (index: number) => void;
 }) => {
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (newFiles: File[]) => {
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+    // onChange && onChange(newFiles);
+    onChange && onChange([...files, ...newFiles]);
+  };
+
+  const handleFileRemove = (index: number) => {
+    const newFiles = files.filter((file, idx) => idx !== index);
+    // setFiles((prevFiles) => prevFiles.filter((file, idx) => idx !== index));
+    setFiles([...newFiles]);
     onChange && onChange(newFiles);
   };
 
@@ -86,6 +97,15 @@ export const FileUpload = ({
                     "shadow-sm"
                   )}
                 >
+                  <div className="absolute right-3 bottom-3">
+                    <Button
+                      variant="ghost"
+                      className="text-red-400 h-6 w-5"
+                      onPress={() => handleFileRemove(idx)}
+                    >
+                      remove
+                    </Button>
+                  </div>
                   <div className="flex justify-between w-full items-center gap-4">
                     <motion.p
                       initial={{ opacity: 0 }}
@@ -105,7 +125,7 @@ export const FileUpload = ({
                     </motion.p>
                   </div>
 
-                  <div className="flex text-sm md:flex-row flex-col items-start md:items-center w-full mt-2 justify-between text-neutral-600 dark:text-neutral-400">
+                  <div className="flex text-sm flex-col items-start w-full mt-2 justify-between text-neutral-600 dark:text-neutral-400">
                     <motion.p
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}

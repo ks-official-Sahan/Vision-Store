@@ -1,10 +1,16 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
 const Loading = ({ isLoading }: { isLoading?: boolean }) => {
-  if (!isLoading) return null;
+  const [isMounted, setIsMounted] = useState(false);
 
-  if (typeof window === "undefined") return null;
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted || !isLoading) return null;
 
   return ReactDOM.createPortal(
     <div className="flex-center fixed inset-0 z-[100] overflow-hidden backdrop-blur-lg">
@@ -14,7 +20,7 @@ const Loading = ({ isLoading }: { isLoading?: boolean }) => {
         <div className="three-body__dot"></div>
       </div>
     </div>,
-    document.body // Render directly inside the body
+    document.body
   );
 };
 

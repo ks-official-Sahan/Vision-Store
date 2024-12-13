@@ -30,6 +30,14 @@ const CategoryCreate = () => {
     setTimeout(() => setIsLoading(false), 1000);
   }, []);
 
+  const [files, setFiles] = useState<File[]>([]);
+
+  const handleFileUpload = (files: File[]) => {
+    setFiles(files);
+    console.log(files);
+    console.log(JSON.stringify(files));
+  };
+
   const validateInputData = () => {
     // Validation of required data
     const errors = {
@@ -124,19 +132,7 @@ const CategoryCreate = () => {
             error={form.errors.title}
           />
 
-          <SelectField
-            title="Media"
-            data={[]}
-            handleValueChange={(e) => {
-              setForm({
-                ...form,
-                media: e.target.value,
-                errors: { ...form.errors },
-              });
-            }}
-          />
-
-          <MediaSelector />
+          <MediaSelector title="Media" handleFileUpload={handleFileUpload} files={files} />
         </section>
 
         <section className="col-span-1 md:col-span-2 flex flex-col min-w-[300px] flex-1 w-full gap-5">
