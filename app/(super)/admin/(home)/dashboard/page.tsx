@@ -5,7 +5,7 @@ import Tips from "@/components/main/admin/dashboard/Tips";
 import Loading from "@/components/main/Loading";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { adminRoutes } from "@data";
+import { adminRoutes } from "../../../../../data/nav";
 
 const AdminDashboard = () => {
   const [viewTips, setViewTips] = useState(false);
@@ -37,31 +37,29 @@ const AdminDashboard = () => {
         <div className="w-full grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 grid-rows-10 gap-5">
           <GridCard
             title={"Products"}
-            url={"/admin/collections/products"}
-            create={"/admin/collections/products/create"}
+            url={adminRoutes.PRODUCTS.path}
+            create={adminRoutes.CREATE_PRODUCT.path}
           />
           <GridCard
             title={"Categories"}
-            url={"/admin/collections/categories"}
-            create={"/admin/collections/categories/create"}
+            url={adminRoutes.CATEGORIES.path}
+            create={adminRoutes.CREATE_CATEGORY.path}
           />
           <GridCard
             title={"Orders"}
-            url={"/admin/collections/order"}
-            create={"/admin/collections/order/create"}
+            url={adminRoutes.ORDERS.path}
+            create={adminRoutes.CREATE_ORDER.path}
           />
           <GridCard
             title={"Media"}
-            url={"/admin/collections/media"}
-            create={"/admin/collections/media/create"}
+            url={adminRoutes.MEDIA.path}
+            create={adminRoutes.CREATE_MEDIA.path}
           />
           <GridCard
             title={"Users"}
-            // url={"/admin/collections/users"}
             url={adminRoutes.USERS.path}
-            // create={"/admin/collections/users/create"}
-            create={adminRoutes.CREATE_USERS.path}
-          />
+            create={adminRoutes.CREATE_USER.path}
+            />
         </div>
       </article>
     </>

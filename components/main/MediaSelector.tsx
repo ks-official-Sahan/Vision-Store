@@ -38,7 +38,7 @@ const MediaSelector = ({
         {required && <span className="text-red-600 font-pregular">*</span>}
       </p>
 
-      <div className="flex gap-6 flex-col justify-evenly items-center py-5 rounded-lg bg-gray-200 dark:bg-gray-950 ">
+      <div className="flex gap-6 flex-col justify-evenly items-center py-5 px-4 rounded-lg bg-gray-200 dark:bg-gray-950 ">
         {files?.length == 0 && (
           <>
             <CustomButton
@@ -46,9 +46,9 @@ const MediaSelector = ({
               handlePress={() => {
                 alert("Choose from existing");
               }}
-              className="px-5 py-4"
+              className="px-5 py-4 flex-1"
             />
-            <span className="text-2xl font-extrabold">OR</span>
+            <span className="text-2xl flex-1 font-extrabold">OR</span>
           </>
         )}
         <div className="flex-1">
