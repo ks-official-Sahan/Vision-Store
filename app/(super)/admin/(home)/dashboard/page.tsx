@@ -59,7 +59,7 @@ const AdminDashboard = () => {
             title={"Users"}
             url={adminRoutes.USERS.path}
             create={adminRoutes.CREATE_USER.path}
-          />
+            />
         </div>
       </article>
     </>
