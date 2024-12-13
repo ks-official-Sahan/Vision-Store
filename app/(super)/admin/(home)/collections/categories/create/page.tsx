@@ -4,6 +4,7 @@ import PathNav from "@/components/main/admin/PathNav";
 import CustomButton from "@/components/main/CustomButton";
 import InputField from "@/components/main/InputField";
 import Loading from "@/components/main/Loading";
+import MediaSelector from "@/components/main/MediaSelector";
 import SelectField from "@/components/main/SelectField";
 import WrapperBody from "@/components/wrapper/WrapperBody";
 import { adminRoutes } from "@/data";
@@ -28,6 +29,14 @@ const CategoryCreate = () => {
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000);
   }, []);
+
+  const [files, setFiles] = useState<File[]>([]);
+
+  const handleFileUpload = (files: File[]) => {
+    setFiles(files);
+    console.log(files);
+    console.log(JSON.stringify(files));
+  };
 
   const validateInputData = () => {
     // Validation of required data
@@ -123,18 +132,7 @@ const CategoryCreate = () => {
             error={form.errors.title}
           />
 
-          <SelectField
-            title="Media"
-            data={[]}
-            handleValueChange={(e) => {
-              setForm({
-                ...form,
-                parent: e.target.value,
-                errors: { ...form.errors, parent: null },
-              });
-            }}
-            error={form.errors.parent}
-          />
+          <MediaSelector title="Media" handleFileUpload={handleFileUpload} files={files} />
         </section>
 
         <section className="col-span-1 md:col-span-2 flex flex-col min-w-[300px] flex-1 w-full gap-5">
