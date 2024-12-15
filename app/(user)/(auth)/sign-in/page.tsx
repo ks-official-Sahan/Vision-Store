@@ -1,11 +1,9 @@
 "use client";
 
 import InputField from "@/components/main/InputField";
-import SelectField from "@/components/main/SelectField";
 import CustomButton from "@/components/main/CustomButton";
 import WrapperScreen from "@/components/wrapper/WrapperScreen";
-import { adminRoutes, Roles, routes, Site } from "@/data";
-import { adminSignIn } from "@/lib/actions/fetch/admin";
+import { Site, routes } from "@/data";
 import {
   validateAvailability,
   validateEmail,
@@ -16,17 +14,18 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Loading from "@/components/main/Loading";
+import { signin } from "@/lib/actions/fetch/auth";
 
-export type AdminSignInFormProps = {
+export type SignInFormProps = {
   email: string;
   password: string;
   errors?: any | object;
 };
 
-const AdminSignIn = () => {
+const SignIn = () => {
   const router = useRouter();
 
-  const [form, setForm] = useState<AdminSignInFormProps>({
+  const [form, setForm] = useState<SignInFormProps>({
     email: "",
     password: "",
     errors: {
@@ -55,20 +54,20 @@ const AdminSignIn = () => {
     return true;
   };
 
-  const handleAdminSignIn = async () => {
+  const handleSignIn = async () => {
     const isValid = validateUserData();
     if (!isValid) return;
 
     try {
       setIsSubmitting(true);
       console.log(form);
-      // const result = await adminSignIn(form);
+      // const result = await signin(form);
       // if (result.status === RESULT.error) return alert("Something Failed");
 
       // if (result.status === RESULT.data) {
-      router.replace(adminRoutes.DASHBOARD.path);
+      router.replace(routes.HOME.path);
       //   } else if (result.status === RESULT.success) {
-      //    router.replace(adminRoutes.DASHBOARD.path);
+      //    router.replace(routes.HOME.path);
       //   }
     } catch (error: Error | any) {
       alert(`Something went wrong: ${error.message}`);
@@ -83,25 +82,18 @@ const AdminSignIn = () => {
 
       <header className="mb-7 max-w-[500px]">
         <h1 className="text-4xl font-bold dark:text-white text-center mt-5 mb-5 font-robert-medium">
-          {adminRoutes.SIGN_IN.title}
+          {routes.SIGN_IN.title}
         </h1>
         <p className="text-sm text-center text-gray-600 dark:text-gray-400">
-          Welcome to
+          Welcome to{" "}
           <Link
             href={routes.HOME.path}
             className="underline text-blue-600 font-bold"
           >
             {Site.siteName}
           </Link>{" "}
-          admin sign in. This is where site admins will log in to manage your
-          store. Customers will need to{" "}
-          <Link
-            href={routes.SIGN_IN.path}
-            className="underline text-blue-600 font-bold"
-          >
-            log in to the site
-          </Link>{" "}
-          instead to access their user account, order history, and more.
+          customer sign in. This is where site customers will log in to access
+          their user account, order history, and more.
         </p>
       </header>
 
@@ -138,7 +130,7 @@ const AdminSignIn = () => {
 
         <article className="px-1">
           <Link
-            href={adminRoutes.FORGET_PASSWORD.path}
+            href={routes.FORGET_PASSWORD.path}
             className="underline text-sm text-gray-700 dark:text-gray-300"
             target="blank"
           >
@@ -147,14 +139,31 @@ const AdminSignIn = () => {
         </article>
 
         <CustomButton
-          className="h-14 w-full mt-7 mb-10"
-          handlePress={handleAdminSignIn}
-          title="Sign In"
+          className="h-14 w-full mt-7 mb-3"
+          handlePress={handleSignIn}
+          title={routes.SIGN_IN.title}
           isLoading={isSubmitting}
         />
+
+        <p className="text-sm w-full text-center">
+          Don't have an Account?{" "}
+          <Link
+            className="underline text-blue-500 font-bold"
+            href={routes.SIGN_UP.path}
+          >
+            {routes.SIGN_UP.path}
+          </Link>
+        </p>
+        {/* <CustomButton
+          variant="shadow"
+          className="h-12 w-full mb-10 bg-blue-700 hover:bg-blue-500"
+          handlePress={() => router.push(routes.SIGN_UP.path)}
+          title="Sign Up"
+          isLoading={isSubmitting}
+        /> */}
       </section>
     </WrapperScreen>
   );
 };
 
-export default AdminSignIn;
+export default SignIn;

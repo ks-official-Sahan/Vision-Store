@@ -39,6 +39,7 @@ const AdminDashboard = () => {
               title={card.main.title}
               url={card.main.path}
               create={card.create.path}
+              key={card.main.title}
             />
           ))}
         </div>

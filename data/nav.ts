@@ -10,21 +10,29 @@ export type RouteProps = {
 };
 
 export const routes = {
-  HOME: { title: "Home", path: "/" },
-  ABOUT: { title: "About", path: "/about" },
-  WOKRS: { title: "Works", path: "/works" },
-  UPDATES: { title: "Updates", path: "/updates" },
-  CONTACT: { title: "Contact", path: "/contact" },
+  // AUTH
   SIGN_IN: { title: "Sign In", path: "/sign-in" },
-  // BLOG: { title: "Blog", path: "/blog" },
+  SIGN_UP: { title: "Sign Up", path: "/sign-up" },
+  LOGOUT: { title: "Logout", path: "/logout" },
+  FORGET_PASSWORD: {
+    title: "Forget Password",
+    path: "/forget-password",
+  },
+
+  // MAIN
+  HOME: { title: "Home", path: "/" },
+  STORE: { title: "Store", path: "/store" },
+  CART: { title: "Cart", path: "/cart" },
+  ACCOUNT: { title: "Account", path: "/account" },
+  SEARCH: { title: "Search", path: "/search" },
 };
 
 const navbarItems = [
   routes.HOME,
-  routes.ABOUT,
-  routes.WOKRS,
-  routes.UPDATES,
-  routes.CONTACT,
+  routes.STORE,
+  routes.SEARCH,
+  routes.CART,
+  routes.ACCOUNT,
 ];
 
 const sidebarItems = [...navbarItems, routes.SIGN_IN];
@@ -40,12 +48,16 @@ ADMIN NAVIGATIONS
 
 export const adminRoutes = {
   // AUTH
-  SIGN_IN: { title: "Sign In", path: "/admin/sign-in" },
+  SIGN_IN: { title: "Admin Sign In", path: "/admin/sign-in" },
   CREATE_FIRST_USER: {
     title: "Create First User",
     path: "/admin/create-first-user",
   },
   LOGOUT: { title: "Admin Logout", path: "/admin/logout" },
+  FORGET_PASSWORD: {
+    title: "Admin Forget Password",
+    path: "/admin/forget-password",
+  },
 
   // MAIN PAGES
   DASHBOARD: { title: "Dashboard", path: "/admin/dashboard" },

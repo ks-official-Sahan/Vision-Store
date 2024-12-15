@@ -6,6 +6,7 @@ import { Button } from "@nextui-org/react";
 import NavItem from "../NavItem";
 import ThemeSwitch from "@/components/theme/theme-switch";
 import { Burger } from "@mantine/core";
+import { adminRoutes } from "@/data";
 
 const AdminNavBar = ({
   title,
@@ -44,7 +45,10 @@ const AdminNavBar = ({
       <div className="hidden sm:flex md:flex lg:flex items-center gap-6 z-[50]">
         <div className="gap-6 sm:hidden flex">
           <ThemeSwitch />
-          <Link href={`/contact`} className="md:hidden lg:flex">
+          <Link
+            href={`${adminRoutes.PROFILE.path}`}
+            className="md:hidden lg:flex"
+          >
             <Button className="text-[14px] font-semibold dark:text-black text-white bg-primary-50 h-[37px] px-[20px] rounded-[15px] flex justify-center items-center">
               {type === "user" ? "Sign In" : "Profile"}
             </Button>

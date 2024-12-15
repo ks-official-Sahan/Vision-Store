@@ -7,6 +7,7 @@ import { useDisclosure } from "@mantine/hooks";
 import SideBar from "../SideBar";
 import NavBar from "./NavBar";
 import { routes, Site, siteNavigations } from "@/data";
+import WrapperBody from "@/components/wrapper/WrapperBody";
 
 const Navigation = () => {
   const [currentPath, setCurrentPath] = useState("");
@@ -62,7 +63,8 @@ const Navigation = () => {
         currentPath={currentPath}
       />
 
-      <div className="w-full flex flex-row items-center">
+      {/* <div className="w-full flex flex-row items-center"> */}
+      <WrapperBody>
         <NavBar
           data={siteNavigations}
           title={Site.siteName}
@@ -70,7 +72,8 @@ const Navigation = () => {
           opened={opened}
           toggle={toggle}
         />
-      </div>
+      </WrapperBody>
+      {/* </div> */}
     </motion.header>
   );
 };
