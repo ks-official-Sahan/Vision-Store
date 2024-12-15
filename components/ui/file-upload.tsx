@@ -28,18 +28,25 @@ const secondaryVariant = {
 
 export const FileUpload = ({
   onChange,
+  multiple,
 }: // onRemove,
 {
   onChange?: (files: File[]) => void;
+  multiple?: boolean;
   // onRemove?: (index: number) => void;
 }) => {
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (newFiles: File[]) => {
-    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-    // onChange && onChange(newFiles);
-    onChange && onChange([...files, ...newFiles]);
+    // console.log(newFiles);
+    if (multiple) {
+      setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+      onChange && onChange([...files, ...newFiles]);
+    } else {
+      setFiles([...newFiles]);
+      onChange && onChange(newFiles);
+    }
   };
 
   const handleFileRemove = (index: number) => {

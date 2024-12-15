@@ -14,6 +14,7 @@ interface InputFieldProps {
   otherStyle?: string;
   required?: boolean;
   error?: string | null;
+  type?: React.HTMLInputTypeAttribute | undefined;
   errorComponent?:
     | React.ReactElement
     | React.ReactNode
@@ -28,6 +29,7 @@ const InputField = ({
   placeholder,
   handleTextChange,
   otherStyle,
+  type,
   error,
   errorComponent,
   required,
@@ -60,7 +62,9 @@ const InputField = ({
         } rounded-2xl focus:border-secondary px-5 gap-3 space-x-4`}
       >
         <input
-          type={isPasswordField && !showPassword ? "password" : "text"}
+          type={
+            isPasswordField && !showPassword ? "password" : type ? type : "text"
+          }
           className="flex-1 bg-transparent border-none outline-none text-gray-700 dark:text-white font-psemibold"
           placeholder={placeholder}
           onChange={(e) => handleTextChange?.(e.target.value)}

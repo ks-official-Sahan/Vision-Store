@@ -44,3 +44,12 @@ export const validateAvailability = (
 ) => {
   return data ? null : `Please fill in the ${name ? name : "Field"}`;
 };
+
+export const validateFiles = (
+  data: Array<any>,
+  name?: string | undefined | null
+) => {
+  return data.length > 0
+    ? null
+    : `Select resources for the ${name ? name : "Field"}`;
+};
