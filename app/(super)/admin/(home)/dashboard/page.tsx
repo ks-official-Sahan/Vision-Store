@@ -3,9 +3,8 @@
 import GridCard from "@/components/main/admin/dashboard/GridCard";
 import Tips from "@/components/main/admin/dashboard/Tips";
 import Loading from "@/components/main/Loading";
-import Link from "next/link";
+import { dashboardContent, GridCardProps } from "@/data";
 import React, { useEffect, useState } from "react";
-import { adminRoutes } from "../../../../../data/nav";
 
 const AdminDashboard = () => {
   const [viewTips, setViewTips] = useState(false);
@@ -35,31 +34,13 @@ const AdminDashboard = () => {
         </div>
 
         <div className="w-full grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 grid-rows-10 gap-5">
-          <GridCard
-            title={"Products"}
-            url={adminRoutes.PRODUCTS.path}
-            create={adminRoutes.CREATE_PRODUCT.path}
-          />
-          <GridCard
-            title={"Categories"}
-            url={adminRoutes.CATEGORIES.path}
-            create={adminRoutes.CREATE_CATEGORY.path}
-          />
-          <GridCard
-            title={"Orders"}
-            url={adminRoutes.ORDERS.path}
-            create={adminRoutes.CREATE_ORDER.path}
-          />
-          <GridCard
-            title={"Media"}
-            url={adminRoutes.MEDIA.path}
-            create={adminRoutes.CREATE_MEDIA.path}
-          />
-          <GridCard
-            title={"Users"}
-            url={adminRoutes.USERS.path}
-            create={adminRoutes.CREATE_USER.path}
-          />
+          {dashboardContent.grid.map((card: GridCardProps) => (
+            <GridCard
+              title={card.main.title}
+              url={card.main.path}
+              create={card.create.path}
+            />
+          ))}
         </div>
       </article>
     </>
