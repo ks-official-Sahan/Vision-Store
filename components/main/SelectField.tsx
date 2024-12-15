@@ -67,7 +67,7 @@ const SelectField = ({
               key={item.value}
               value={item.value}
             >
-              {item.text}
+              {item.title}
             </option>
           ))}
         </select>

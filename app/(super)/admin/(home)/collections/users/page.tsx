@@ -17,58 +17,47 @@ import { adminRoutes } from "@/data";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const ProductsPage = () => {
+const UsersPage = () => {
   const router = useRouter();
 
-  // const [products, setProducts] = useState([]);
-  // const [fetchedProducts, setFetchedProducts] = useState([]);
-  const [total, setTotal] = useState(0.0);
-  const [currency, setCurrency] = useState("$");
+  // const [users, setUsers] = useState([]);
+  // const [fetchedUsers, setFetchedUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [fetchedProducts, setFetchedProducts] = useState<any>([]);
-  const [products, setProducts] = useState<any>([]);
+  const [fetchedUsers, setFetchedUsers] = useState<any>([]);
+  const [users, setUsers] = useState<any>([]);
 
   useEffect(() => {
-    let value = 0.0;
-    products.map((product: any) => (value += parseFloat(product.totalAmount)));
-
-    setTotal(value);
-  }, [products]);
+    setUsers(fetchedUsers);
+  }, [fetchedUsers]);
 
   useEffect(() => {
-    setProducts(fetchedProducts);
-  }, [fetchedProducts]);
-
-  useEffect(() => {
-    //setTimeout(fetchProducts, 2000);
-    fetchProducts();
+    //setTimeout(fetchUsers, 2000);
+    fetchUsers();
   }, []);
 
-  const fetchProducts = async () => {
+  const fetchUsers = async () => {
     try {
       setIsLoading(true);
 
-      // const result = await adminFetchProducts();
+      // const result = await adminFetchUsers();
       // if (result.status === RESULT.error) return alert("Something Failed");
 
       // if (result.status === RESULT.data) {
-      setFetchedProducts([
+      setFetchedUsers([
         {
-          id: "PR001",
-          name: "Asus Tuf Dash F15",
+          id: "USR001",
+          name: "Sahan",
+          role: "Admin",
           status: "Active",
-          totalAmount: "250.00",
-          currency: "$",
-          quantity: "10",
+          email: "Sahan@gmail.com",
         },
         {
-          id: "PR004",
-          name: "Asus Tuf Gaming F15",
+          id: "USR004",
+          name: "Chathura",
+          role: "Customer",
           status: "Inactive",
-          totalAmount: "450.00",
-          currency: "$",
-          quantity: "15",
+          email: "Chathura@gmail.com",
         },
       ]);
       //   } else if (result.status === RESULT.success) {
@@ -82,31 +71,31 @@ const ProductsPage = () => {
   };
 
   const handleSearch = (text: string) => {
-    if (text === "") return setProducts([...fetchedProducts]);
+    if (text === "") return setUsers([...fetchedUsers]);
 
     const normalizedSearchValue = text.toString().toLowerCase();
-    const filteredProducts = fetchedProducts.filter(
+    const filteredUsers = fetchedUsers.filter(
       (product: any) =>
         product.id.toLowerCase().includes(normalizedSearchValue) ||
         product.status.toLowerCase().includes(normalizedSearchValue) ||
-        product.totalAmount.includes(normalizedSearchValue)
+        product.name.toLowerCase().includes(normalizedSearchValue) ||
+        product.email.toLowerCase().includes(normalizedSearchValue) ||
+        product.role.includes(normalizedSearchValue)
     );
 
-    setProducts([...filteredProducts]);
+    setUsers([...filteredUsers]);
   };
 
   return (
     <>
       <Loading isLoading={isLoading} />
       <PathNav
-        data={[
-          { path: adminRoutes.PRODUCTS.path, name: adminRoutes.PRODUCTS.title },
-        ]}
+        data={[{ path: adminRoutes.USERS.path, name: adminRoutes.USERS.title }]}
       />
 
       <header className="mb-6 flex items-center justify-between pb-2 border-b-1">
         <h1 className="text-xl font-robert-medium">
-          {adminRoutes.PRODUCTS.title}
+          {adminRoutes.USERS.title}
         </h1>
         <CustomButton
           title="Create New"
@@ -114,7 +103,7 @@ const ProductsPage = () => {
           className="bg-black-200 dark:bg-gray-300 px-4 min-h-10"
           textStyle=" text-white dark:text-black"
           handlePress={() => {
-            router.push(`${adminRoutes.CREATE_PRODUCT.path}`);
+            router.push(`${adminRoutes.CREATE_USER.path}`);
           }}
         />
       </header>
@@ -123,7 +112,7 @@ const ProductsPage = () => {
         <article className="flex mb-5">
           <input
             type="text"
-            placeholder={`Search ${adminRoutes.PRODUCTS.title}`}
+            placeholder={`Search ${adminRoutes.USERS.title}`}
             className="flex-1 rounded-xl border-2 h-12 px-4 mb-3 outline-none focus:border-blue-400 text-gray-700 dark:text-gray-300"
             onChange={(e) => handleSearch(e.target.value)}
           />
@@ -131,36 +120,32 @@ const ProductsPage = () => {
 
         <Table>
           <TableCaption>
-            A list of current {adminRoutes.PRODUCTS.title}.
+            A list of current {adminRoutes.USERS.title}.
           </TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">ID</TableHead>
               <TableHead>Name</TableHead>
-              <TableHead className="text-center">Quantity</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead className="text-right">Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product: any) => (
-              <TableRow key={product.id} className="h-12">
-                <TableCell className="font-medium">{product.id}</TableCell>
-                <TableCell>{product.name}</TableCell>
-                <TableCell className="text-center">
-                  {product.quantity}
-                </TableCell>
-                <TableCell>{product.status}</TableCell>
-                <TableCell className="text-right">
-                  {product.currency + product.totalAmount}
-                </TableCell>
+            {users.map((user: any) => (
+              <TableRow key={user.id} className="h-12">
+                <TableCell className="font-medium">{user.id}</TableCell>
+                <TableCell>{user.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.role}</TableCell>
+                <TableCell className="text-right">{user.status}</TableCell>
               </TableRow>
             ))}
           </TableBody>
           <TableFooter>
             <TableRow>
               <TableCell colSpan={4}>Total</TableCell>
-              <TableCell className="text-right">{`${currency}${total}.00`}</TableCell>
+              <TableCell className="text-right">{`${users.length}`}</TableCell>
             </TableRow>
           </TableFooter>
         </Table>
@@ -169,4 +154,4 @@ const ProductsPage = () => {
   );
 };
 
-export default ProductsPage;
+export default UsersPage;

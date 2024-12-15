@@ -14,48 +14,51 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { adminRoutes } from "@/data";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const CategoriesPage = () => {
+const MediaPage = () => {
   const router = useRouter();
 
-  const [fetchedCategories, setFetchedCategories] = useState<any>([]);
-  const [categories, setCategories] = useState<any>([]);
+  const [fetchedMedia, setFetchedMedia] = useState<any>([]);
+  const [media, setMedia] = useState<any>([]);
 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setCategories(fetchedCategories);
-  }, [fetchedCategories]);
+    setMedia(fetchedMedia);
+  }, [fetchedMedia]);
 
   useEffect(() => {
-    fetchCategories();
+    fetchMedia();
   }, []);
 
-  const fetchCategories = async () => {
+  const fetchMedia = async () => {
     try {
       setIsLoading(true);
-      // const result = await adminFetchCategories();
+      // const result = await adminFetchMedia();
       // if (result.status === RESULT.error) return alert("Something Failed");
 
       // if (result.status === RESULT.data) {
-      setFetchedCategories([
+      setFetchedMedia([
         {
-          id: "CAT001",
-          title: "Laptop",
-          media: "<No Media>",
-          parent: "<No Parent>",
+          id: "MED001",
+          fileName: "Laptop",
+          src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSj9zTsUw9GLhneuaoFGKsx3WAzZc9qE1SK_w&s",
+          alt: "<No Alt>",
+          caption: "<No Caption>",
         },
         {
-          id: "CAT002",
-          title: "PC",
-          media: "<No Media>",
-          parent: "PC",
+          id: "MED002",
+          fileName: "PC",
+          src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSj9zTsUw9GLhneuaoFGKsx3WAzZc9qE1SK_w&s",
+          alt: "<No Alt>",
+          caption: "<No Caption>",
         },
       ]);
       //   } else if (result.status === RESULT.success) {
-      //     router.replace(adminRoutes.CATEGORIES.path);
+      //     router.replace(adminRoutes.MEDIA.path);
       //   }
     } catch (error: Error | any) {
       console.log(error.message);
@@ -65,17 +68,17 @@ const CategoriesPage = () => {
   };
 
   const handleSearch = (text: string) => {
-    if (text === "") return setCategories([...fetchedCategories]);
+    if (text === "") return setMedia([...fetchedMedia]);
 
     const normalizedSearchValue = text.toString().toLowerCase();
-    const filteredCategories = fetchedCategories.filter(
+    const filteredMedia = fetchedMedia.filter(
       (category: any) =>
         category.id.toLowerCase().includes(normalizedSearchValue) ||
         category.title.toLowerCase().includes(normalizedSearchValue) ||
         category.parent.includes(normalizedSearchValue)
     );
 
-    setCategories([...filteredCategories]);
+    setMedia([...filteredMedia]);
   };
 
   return (
@@ -84,15 +87,15 @@ const CategoriesPage = () => {
       <PathNav
         data={[
           {
-            path: adminRoutes.CATEGORIES.path,
-            name: adminRoutes.CATEGORIES.title,
+            path: adminRoutes.MEDIA.path,
+            name: adminRoutes.MEDIA.title,
           },
         ]}
       />
 
       <header className="mb-6 flex items-center justify-between pb-2 border-b-1">
         <h1 className="text-xl font-robert-medium">
-          {adminRoutes.CATEGORIES.title}
+          {adminRoutes.MEDIA.title}
         </h1>
         <CustomButton
           title="Create New"
@@ -100,7 +103,7 @@ const CategoriesPage = () => {
           className="bg-black-200 dark:bg-gray-300 px-4 min-h-10"
           textStyle=" text-white dark:text-black"
           handlePress={() => {
-            router.push(`${adminRoutes.CREATE_CATEGORY.path}`);
+            router.push(`${adminRoutes.CREATE_MEDIA.path}`);
           }}
         />
       </header>
@@ -109,7 +112,7 @@ const CategoriesPage = () => {
         <article className="flex mb-5">
           <input
             type="text"
-            placeholder={`Search ${adminRoutes.CATEGORIES.title}`}
+            placeholder={`Search ${adminRoutes.MEDIA.title}`}
             className="flex-1 rounded-xl border-2 h-12 px-4 mb-3 outline-none focus:border-blue-400 text-gray-700 dark:text-gray-300"
             onChange={(e) => handleSearch(e.target.value)}
           />
@@ -117,30 +120,40 @@ const CategoriesPage = () => {
 
         <Table>
           <TableCaption>
-            A list of current {adminRoutes.CATEGORIES.title}.
+            A list of current {adminRoutes.MEDIA.title}.
           </TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">ID</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead>Media</TableHead>
-              <TableHead className="text-right">Parent</TableHead>
+              <TableHead>File Name</TableHead>
+              <TableHead>Alt</TableHead>
+              <TableHead className="text-right">Caption</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {categories.map((category: any) => (
-              <TableRow key={category.id} className="h-12">
-                <TableCell className="font-medium">{category.id}</TableCell>
-                <TableCell>{category.title}</TableCell>
-                <TableCell>{category.media}</TableCell>
-                <TableCell className="text-right">{category.parent}</TableCell>
+            {media.map((media: any) => (
+              <TableRow key={media.id} className="h-12">
+                <TableCell className="font-medium">{media.id}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-6 p-2">
+                    <Image
+                      alt={media.alt}
+                      src={media.src}
+                      width={100}
+                      height={100}
+                    />
+                    {media.fileName}
+                  </div>
+                </TableCell>
+                <TableCell>{media.alt}</TableCell>
+                <TableCell className="text-right">{media.caption}</TableCell>
               </TableRow>
             ))}
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={3}>Total Categories</TableCell>
-              <TableCell className="text-right">{categories.length}</TableCell>
+              <TableCell colSpan={3}>Total</TableCell>
+              <TableCell className="text-right">{media.length}</TableCell>
             </TableRow>
           </TableFooter>
         </Table>
@@ -149,4 +162,4 @@ const CategoriesPage = () => {
   );
 };
 
-export default CategoriesPage;
+export default MediaPage;
