@@ -1,8 +1,10 @@
 export const APP_NAME = "VisionStore";
-export const SERVER_URL = "https://9e7d-45-121-91-37.ngrok-free.app";
+export const API_URL = "vision-store-api";
+export const SERVER_URL =
+  "https://4c8f-2402-d000-8128-1de-69c9-2c17-c4b7-aa1f.ngrok-free.app/";
 
 const API_CONFIG = {
-  baseURL: `${SERVER_URL}/${APP_NAME}`,
+  baseURL: `${SERVER_URL}/${API_URL}`,
   headers: {
     "Content-Type": "application/json",
   },
@@ -11,10 +13,13 @@ const API_CONFIG = {
 export default API_CONFIG;
 
 interface ResponseDTO {
-  success?: boolean;
-  target?: string;
+  status?: boolean;
   message?: string;
   data?: any;
+  url?: string;
+  dataList?: Array<any>;
+  code?: string;
+  target?: string;
   error?: any;
 }
 

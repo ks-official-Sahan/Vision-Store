@@ -59,6 +59,9 @@ importers:
       framer-motion:
         specifier: ^11.13.5
         version: 11.13.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      input-otp:
+        specifier: ^1.4.1
+        version: 1.4.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       lucide-react:
         specifier: ^0.468.0
         version: 0.468.0(react@19.0.0)

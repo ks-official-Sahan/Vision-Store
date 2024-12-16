@@ -1,11 +1,10 @@
 import API_CONFIG, { getData, ResponseDTO, RESULT, saveData } from "../../api";
 import { handleError, handleResponse, handleResult } from "./main";
-import { SIGN_IN, SIGN_UP } from "@/lib/endpoints";
+import { SIGN_IN, SIGN_UP, VERIFICATION } from "@/lib/endpoints";
 import { useRouter } from "next/navigation";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/rules-of-hooks */ 
-
+/* eslint-disable react-hooks/rules-of-hooks */
 export const GetCurrentUser = async () => {
   const router = useRouter();
   const user = await getData();
@@ -16,11 +15,11 @@ export const GetCurrentUser = async () => {
 };
 
 /* Sign Up */
-export const signup = async ({ username, email, password }: any) => {
+export const signup = async ({ name, email, password }: any) => {
   try {
     const response = await fetch(API_CONFIG.baseURL + SIGN_UP, {
       method: "POST",
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify({ name, email, password }),
       headers: API_CONFIG.headers,
     });
 
@@ -50,7 +49,31 @@ export const signin = async ({ email, password }: any) => {
 
     const result = handleResult(responseDto);
 
-    await saveData("user", result.data);
+    if (result.data) {
+      await saveData("user", result.data);
+    }
+
+    return result;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const verification = async ({ email, verification }: any) => {
+  try {
+    const response = await fetch(API_CONFIG.baseURL + VERIFICATION, {
+      method: "POST",
+      body: JSON.stringify({ email, verification }),
+      headers: API_CONFIG.headers,
+    });
+
+    const responseDto: ResponseDTO = await handleResponse(response);
+
+    const result = handleResult(responseDto);
+
+    if (result.data) {
+      await saveData("user", result.data);
+    }
 
     return result;
   } catch (error) {

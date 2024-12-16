@@ -11,27 +11,36 @@ import {
 } from "@/lib/actions/validations/validate";
 import { RESULT } from "@/lib/api";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import Loading from "@/components/main/Loading";
-import { signin } from "@/lib/actions/fetch/auth";
+import { verification } from "@/lib/actions/fetch/auth";
+import { InputFieldOTP } from "@/components/main/VerificationField";
+import { AlertTriangleIcon, XCircleIcon, XIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import ErrorComponent from "@/components/main/ErrorComponent";
 
-export type SignInFormProps = {
-  email: string;
-  password: string;
+export type VerificationFormProps = {
+  email: string | null;
+  verification: string;
   errors?: any | object;
 };
 
-const SignIn = () => {
+const Verification = () => {
+  // let { email }: { email: string } = useParams();
+  // email = email.replace("%40", "@");
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
+  // console.log(email);
+
   const router = useRouter();
 
-  const [form, setForm] = useState<SignInFormProps>({
-    email: "",
-    password: "",
+  const [form, setForm] = useState<VerificationFormProps>({
+    email: email,
+    verification: "",
     errors: {
       email: null,
-      password: null,
+      verification: null,
     },
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,12 +49,25 @@ const SignIn = () => {
   const validateUserData = () => {
     // Validation of required data
     const errors = {
-      email: validateEmail(form.email),
-      password: validatePassword(form.password, form.password),
+      email: validateEmail(form.email as string),
+      verification: validateAvailability(
+        form.verification,
+        "Verification Code"
+      ),
     };
 
     // Update validation results
-    if (errors.email || errors.password) {
+    if (errors.verification) {
+      setForm((prevForm: any) => ({
+        ...prevForm,
+        errors,
+      }));
+      console.log(form);
+      return false;
+    }
+
+    if (errors.email) {
+      alert("Couldn't find the email. Please try again");
       setForm((prevForm: any) => ({
         ...prevForm,
         errors,
@@ -56,7 +78,9 @@ const SignIn = () => {
     return true;
   };
 
-  const handleSignIn = async () => {
+  const handleVerification = async () => {
+    setErrorMessage("");
+
     const isValid = validateUserData();
     if (!isValid) return;
 
@@ -64,24 +88,23 @@ const SignIn = () => {
       setIsSubmitting(true);
       // console.log(form);
 
-      const result = await signin(form);
+      const result = await verification(form);
 
       if (result?.status === RESULT.error)
         return setErrorMessage("Something Failed");
+
       if (result?.status === RESULT.message) {
-        if (result.message === "unverified") {
-          alert(
-            "Unverified user!! Please verify and check your email for the Verification Code"
-          );
-          router.push(`${routes.VERIFICATION.path}?email=${form.email}`);
+        if (result.message === "already verified") {
+          alert("User has been already verified");
+          router.push(routes.SIGN_IN.path);
           return;
         }
+
         return setErrorMessage(result.message);
       }
 
-      if (result?.status === RESULT.data || result?.status === RESULT.success) {
-        router.replace(routes.HOME.path);
-      }
+      if (result?.status === RESULT.data) router.replace(routes.HOME.path);
+      if (result?.status === RESULT.success) router.back();
     } catch (error: Error | any) {
       alert(`Something went wrong: ${error.message}`);
     } finally {
@@ -95,7 +118,7 @@ const SignIn = () => {
 
       <header className="mb-7 max-w-[500px]">
         <h1 className="text-4xl font-bold dark:text-white text-center mt-5 mb-5 font-robert-medium">
-          {routes.SIGN_IN.title}
+          {routes.VERIFICATION.title}
         </h1>
         <p className="text-sm text-center text-gray-600 dark:text-gray-400">
           Welcome to{" "}
@@ -105,71 +128,61 @@ const SignIn = () => {
           >
             {Site.siteName}
           </Link>{" "}
-          customer sign in. This is where site customers will log in to access
-          their user account, order history, and more.
+          customer verification. This is where site customers will verify their
+          user account.
         </p>
       </header>
 
       {/* Form */}
-      <section className="flex flex-col min-w-[300px] max-w-[500px] w-full gap-5">
-        <InputField
-          title="Email Address"
-          value={form.email}
-          placeholder={"Enter your Email Address"}
-          handleTextChange={(e) =>
+      <section className="flex flex-col min-w-[300px] max-w-[500px] w-full gap-7 mt-5">
+        <InputFieldOTP
+          onChange={(value) => {
             setForm({
               ...form,
-              email: e,
-              errors: { ...form.errors, email: null },
-            })
-          }
+              verification: value,
+              errors: { ...form.errors, verification: null },
+            });
+          }}
           required
-          error={form.errors.email}
+          error={form.errors.verification}
         />
-        <InputField
-          title="Password"
-          value={form.password}
-          placeholder={"Enter your Password"}
-          handleTextChange={(value) =>
-            setForm({
-              ...form,
-              password: value,
-              errors: { ...form.errors, password: null },
-            })
-          }
-          required
-          error={form.errors.password}
-        />
+
+        {(email === "" || !email) && (
+          <InputField
+            title="Email Address"
+            value={form.email as string}
+            placeholder={"Enter your Email Address"}
+            handleTextChange={(e) =>
+              setForm({
+                ...form,
+                email: e,
+                errors: { ...form.errors, email: null },
+              })
+            }
+            required
+            error={form.errors.email}
+          />
+        )}
 
         <ErrorComponent
           errorMessage={errorMessage}
           setErrorMessage={setErrorMessage}
         />
 
-        <article className="px-1">
-          <Link
-            href={routes.FORGET_PASSWORD.path}
-            className="underline text-sm text-gray-700 dark:text-gray-300"
-            target="blank"
-          >
-            Forget Password?
-          </Link>
-        </article>
-
         <CustomButton
           className="h-14 w-full mt-7 mb-3"
-          handlePress={handleSignIn}
-          title={routes.SIGN_IN.title}
+          handlePress={handleVerification}
+          title={routes.VERIFICATION.subtitle}
           isLoading={isSubmitting}
         />
 
         <p className="text-sm w-full text-center">
-          Don&apos;t have an Account?{" "}
+          Already verified?{" "}
           <Link
             className="underline text-blue-500 font-bold"
-            href={routes.SIGN_UP.path}
+            href={routes.SIGN_IN.path}
           >
-            {routes.SIGN_UP.title}
+            {routes.SIGN_IN.title}
           </Link>
         </p>
         {/* <CustomButton
@@ -184,4 +197,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Verification;
