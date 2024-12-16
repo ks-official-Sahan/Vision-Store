@@ -26,6 +26,8 @@ const secondaryVariant = {
   },
 };
 
+/* eslint-disable @typescript-eslint/no-unused-expressions */ 
+
 export const FileUpload = ({
   onChange,
   multiple,

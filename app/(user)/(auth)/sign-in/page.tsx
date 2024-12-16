@@ -146,7 +146,7 @@ const SignIn = () => {
         />
 
         <p className="text-sm w-full text-center">
-          Don't have an Account?{" "}
+          Don&apos;t have an Account?{" "}
           <Link
             className="underline text-blue-500 font-bold"
             href={routes.SIGN_UP.path}
