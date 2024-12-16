@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Loading from "@/components/main/Loading";
 import { signup } from "@/lib/actions/fetch/auth";
+import ErrorComponent from "@/components/main/ErrorComponent";
 
 export type SignUpFormProps = {
   email: string;
@@ -30,8 +31,8 @@ const SignUp = () => {
   const [form, setForm] = useState<SignUpFormProps>({
     email: "",
     password: "",
-    cpassword: "",
     name: "",
+    cpassword: "",
     errors: {
       email: null,
       password: null,
@@ -40,6 +41,7 @@ const SignUp = () => {
     },
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>("");
 
   const validateUserData = () => {
     // Validation of required data
@@ -68,15 +70,20 @@ const SignUp = () => {
 
     try {
       setIsSubmitting(true);
-      console.log(form);
-      // const result = await signup(form);
-      // if (result.status === RESULT.error) return alert("Something Failed");
+      // console.log(form);
 
-      // if (result.status === RESULT.data) {
-      router.replace(routes.HOME.path);
-      //   } else if (result.status === RESULT.success) {
-      //    router.replace(routes.HOME.path);
-      //   }
+      const result = await signup(form);
+
+      if (result?.status === RESULT.error)
+        return setErrorMessage("Something Failed");
+      if (result?.status === RESULT.message)
+        return setErrorMessage(result.message);
+
+      if (result?.status === RESULT.data) {
+        router.replace(routes.HOME.path);
+      } else if (result?.status === RESULT.success) {
+        router.replace(`${routes.VERIFICATION.path}?email=${form.email}`);
+      }
     } catch (error: Error | any) {
       alert(`Something went wrong: ${error.message}`);
     } finally {
@@ -173,6 +180,11 @@ const SignUp = () => {
             Forget Password?
           </Link>
         </article>
+
+        <ErrorComponent
+          errorMessage={errorMessage}
+          setErrorMessage={setErrorMessage}
+        />
 
         <CustomButton
           className="h-14 w-full mt-7 mb-3"

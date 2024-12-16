@@ -24,7 +24,7 @@ export const handleError = (error: Error | any) => {
 
 /* Handle Result */
 export const handleResult = (responseDto: ResponseDTO) => {
-  if (!responseDto.success) {
+  if (!responseDto.status) {
     // if (responseDto.error) throw new Error(responseDto.error);
     // Alert.alert(responseDto.message);
     if (responseDto.target)
@@ -42,6 +42,10 @@ export const handleResult = (responseDto: ResponseDTO) => {
 
   if (responseDto.data) {
     return { status: RESULT.data, data: responseDto.data };
+  }
+
+  if (responseDto.dataList) {
+    return { status: RESULT.data, data: responseDto.dataList };
   }
 
   return { status: RESULT.success };

@@ -18,6 +18,11 @@ export const routes = {
     title: "Forget Password",
     path: "/forget-password",
   },
+  VERIFICATION: {
+    title: "Verification",
+    subtitle: "Verify",
+    path: "/verification",
+  },
 
   // MAIN
   HOME: { title: "Home", path: "/" },
@@ -57,6 +62,11 @@ export const adminRoutes = {
   FORGET_PASSWORD: {
     title: "Admin Forget Password",
     path: "/admin/forget-password",
+  },
+  VERIFICATION: {
+    title: "Admin Verification",
+    subtitle: "Verify",
+    path: "/admin/verification",
   },
 
   // MAIN PAGES
