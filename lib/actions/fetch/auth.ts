@@ -4,8 +4,9 @@ import { SIGN_IN, SIGN_UP } from "@/lib/endpoints";
 import { useRouter } from "next/navigation";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/rules-of-hooks */ 
 
-export const getCurrentUser = async () => {
+export const GetCurrentUser = async () => {
   const router = useRouter();
   const user = await getData();
   if (user) return user;

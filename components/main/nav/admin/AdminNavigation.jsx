@@ -22,7 +22,7 @@ const AdminNavigation = () => {
       if (path === adminRoutes[page].path)
         setCurrentPath(adminRoutes[page].title.toLowerCase());
     }
-  }, [path, adminRoutes]);
+  }, [path]);
 
   useEffect(() => {
     const handleScroll = () => {

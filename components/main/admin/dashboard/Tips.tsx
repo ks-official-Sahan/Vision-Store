@@ -4,7 +4,7 @@ import React from "react";
 const Tips = () => {
   return (
     <section>
-      <div>Here's what to do next:</div>
+      <div>Here&apos;s what to do next:</div>
 
       <ul className="mt-2 px-2 text-gray-600 text-sm">
         <li>
@@ -17,7 +17,7 @@ const Tips = () => {
             Seed your database
           </Link>{" "}
           with a few products and pages to jump-start your new project, then{" "}
-          <a href="/">visit your website</a> to see the results.
+          <Link href="/">visit your website</Link> to see the results.
         </li>
         <li>
           Head over to{" "}

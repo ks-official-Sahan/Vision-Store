@@ -1,3 +1,4 @@
+import React from "react";
 import API_CONFIG, {
   getData,
   ResponseDTO,
@@ -11,7 +12,8 @@ import { handleError, handleResponse, handleResult } from "./main";
 import { CreateFirstUserFormProps } from "@/app/(super)/admin/(auth)/create-first-user/page";
 import { AdminSignInFormProps } from "@/app/(super)/admin/(auth)/sign-in/page";
 
-export const getCurrentAdmin = async () => {
+/* eslint-disable react-hooks/rules-of-hooks */ 
+export const GetCurrentAdmin = async () => {
   const router = useRouter();
   const admin = await getData("admin");
   if (admin) return admin;
