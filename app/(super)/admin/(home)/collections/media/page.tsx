@@ -88,7 +88,7 @@ const MediaPage = () => {
         data={[
           {
             path: adminRoutes.MEDIA.path,
-            name: adminRoutes.MEDIA.title,
+            title: adminRoutes.MEDIA.title,
           },
         ]}
       />

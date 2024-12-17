@@ -100,7 +100,10 @@ const ProductsPage = () => {
       <Loading isLoading={isLoading} />
       <PathNav
         data={[
-          { path: adminRoutes.PRODUCTS.path, name: adminRoutes.PRODUCTS.title },
+          {
+            path: adminRoutes.PRODUCTS.path,
+            title: adminRoutes.PRODUCTS.title,
+          },
         ]}
       />
 

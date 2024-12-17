@@ -113,11 +113,11 @@ const CategoryCreate = () => {
         data={[
           {
             path: adminRoutes.CATEGORIES.path,
-            name: adminRoutes.CATEGORIES.title,
+            title: adminRoutes.CATEGORIES.title,
           },
           {
             path: adminRoutes.CREATE_CATEGORY.path,
-            name: adminRoutes.CREATE_CATEGORY.title,
+            title: adminRoutes.CREATE_CATEGORY.title,
           },
         ]}
       />

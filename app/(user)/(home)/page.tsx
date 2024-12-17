@@ -53,7 +53,52 @@ const Home = () => {
         {
           id: "PR004",
           name: "Asus Tuf Gaming F15",
-          title: "Asus Tuf Laptop",
+          title:
+            "Asus Tuf Dash F15 Laptop 16GB RAM RTX 3070 2TB PCIe Gen 4 NVME",
+          status: "Inactive",
+          price: "450.00",
+          currency: "$",
+          quantity: "15",
+          imagePath: "/static-image.jpg",
+        },
+        {
+          id: "PR004",
+          name: "Asus Tuf Gaming F15",
+          title:
+            "Asus Tuf Dash F15 Laptop 16GB RAM RTX 3070 2TB PCIe Gen 4 NVME",
+          status: "Inactive",
+          price: "450.00",
+          currency: "$",
+          quantity: "15",
+          imagePath: "/static-image.jpg",
+        },
+        {
+          id: "PR004",
+          name: "Asus Tuf Gaming F15",
+          title:
+            "Asus Tuf Dash F15 Laptop 16GB RAM RTX 3070 2TB PCIe Gen 4 NVME",
+          status: "Inactive",
+          price: "450.00",
+          currency: "$",
+          quantity: "15",
+          imagePath: "/static-image.jpg",
+        },
+        {
+          id: "PR004",
+          name: "Asus Tuf Gaming F15",
+          title:
+            "Asus Tuf Dash F15 Laptop 16GB RAM RTX 3070 2TB PCIe Gen 4 NVME",
+          status: "Inactive",
+          price: "450.00",
+          currency: "$",
+          quantity: "15",
+          imagePath: "/static-image.jpg",
+        },
+        {
+          id: "PR004",
+          name: "Asus Tuf Gaming F15",
+          title:
+            "Asus Tuf Dash F15 Laptop 16GB RAM RTX 3070 2TB PCIe Gen 4 NVME",
           status: "Inactive",
           price: "450.00",
           currency: "$",
@@ -102,19 +147,17 @@ const Home = () => {
         />
       </div>
 
-      <div className="flex-center gap-5 lg:px-10 mt-5 mb-5">
+      <div className="flex-center flex-wrap gap-5 lg:px-10 mt-5 mb-5">
         {products.map((product: any) => (
           <ProductCard
             key={product.id}
             src={product.imagePath}
-            title={
-              "Asus Tuf Dash F15 Laptop 16GB RAM RTX 3070 2TB PCIe Gen 4 NVME"
-            }
+            title={product.title}
             price={product.price}
             currency={product.currency}
             quantity={product.quantity}
-            alt={"Image"}
-            url={"PRO001"}
+            alt={"Product Image"}
+            url={product.id}
           />
         ))}
       </div>

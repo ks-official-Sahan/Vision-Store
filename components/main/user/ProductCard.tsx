@@ -33,16 +33,18 @@ const ProductCard = ({
   width = 200,
   currency = "$",
   price = 250,
-  quantity,
+  quantity = 1,
 }: ProductCardProps) => {
   const router = useRouter();
 
   const handleBuyNow = () => {
-    router.push(`${routes.VIEW_PRODUCT.path}/id?=${url}`);
+    router.push(`${routes.VIEW_PRODUCT.path}/${url}`);
+    // router.push(`${routes.VIEW_PRODUCT.path}/id=${url}`);
   };
 
   const handleAddToCart = () => {
-    router.push(`${routes.CART.path}/id?=${url}`);
+    router.push(`${routes.CART.path}/${url}`);
+    router.push(`${routes.CART.path}?id=${url}`);
   };
 
   const getValue = (discount?: number) => {
@@ -54,7 +56,7 @@ const ProductCard = ({
   };
 
   return (
-    <Card className="max-w-[270px] max-h-[480px]">
+    <Card className="max-w-[270px] min-h-[480px] max-h-[510 px]">
       <CardHeader>
         <Image
           src={src}
@@ -65,7 +67,9 @@ const ProductCard = ({
         />
       </CardHeader>
       <CardContent>
-        <span>{title}</span>
+        <p className="max-h-14 overflow-hidden text-ellipsis whitespace-nowrap ">
+          {title}
+        </p>
         <div className="flex items-center justify-between mt-3 gap-2 px-2">
           <div className="flex gap-1 items-center">
             <span className="font-robert-medium text-lg">{getValue()}</span>

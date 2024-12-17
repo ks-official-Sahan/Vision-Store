@@ -90,7 +90,9 @@ const UsersPage = () => {
     <>
       <Loading isLoading={isLoading} />
       <PathNav
-        data={[{ path: adminRoutes.USERS.path, name: adminRoutes.USERS.title }]}
+        data={[
+          { path: adminRoutes.USERS.path, title: adminRoutes.USERS.title },
+        ]}
       />
 
       <header className="mb-6 flex items-center justify-between pb-2 border-b-1">
