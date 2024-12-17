@@ -85,7 +85,7 @@ const CategoriesPage = () => {
         data={[
           {
             path: adminRoutes.CATEGORIES.path,
-            name: adminRoutes.CATEGORIES.title,
+            title: adminRoutes.CATEGORIES.title,
           },
         ]}
       />

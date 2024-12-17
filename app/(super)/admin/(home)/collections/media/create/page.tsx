@@ -93,11 +93,11 @@ const MediaCreate = () => {
         data={[
           {
             path: adminRoutes.MEDIA.path,
-            name: adminRoutes.MEDIA.title,
+            title: adminRoutes.MEDIA.title,
           },
           {
             path: adminRoutes.CREATE_MEDIA.path,
-            name: adminRoutes.CREATE_MEDIA.title,
+            title: adminRoutes.CREATE_MEDIA.title,
           },
         ]}
       />

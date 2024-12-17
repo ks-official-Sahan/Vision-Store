@@ -30,6 +30,9 @@ export const routes = {
   CART: { title: "Cart", path: "/cart" },
   ACCOUNT: { title: "Account", path: "/account" },
   SEARCH: { title: "Search", path: "/search" },
+
+  // Produuct
+  VIEW_PRODUCT: { title: "View Product", path: "/products/" },
 };
 
 const navbarItems = [

@@ -147,11 +147,11 @@ const ProductCreate = () => {
         data={[
           {
             path: adminRoutes.PRODUCTS.path,
-            name: adminRoutes.PRODUCTS.title,
+            title: adminRoutes.PRODUCTS.title,
           },
           {
             path: adminRoutes.CREATE_PRODUCT.path,
-            name: adminRoutes.CREATE_PRODUCT.title,
+            title: adminRoutes.CREATE_PRODUCT.title,
           },
         ]}
       />

@@ -138,11 +138,11 @@ const ProductCreate = () => {
         data={[
           {
             path: adminRoutes.USERS.path,
-            name: adminRoutes.USERS.title,
+            title: adminRoutes.USERS.title,
           },
           {
             path: adminRoutes.CREATE_USER.path,
-            name: adminRoutes.CREATE_USER.title,
+            title: adminRoutes.CREATE_USER.title,
           },
         ]}
       />
