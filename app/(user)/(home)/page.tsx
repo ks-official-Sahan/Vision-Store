@@ -41,7 +41,7 @@ const Home = () => {
       // if (result.status === RESULT.data) {
       setFetchedProducts([
         {
-          id: "PR001",
+          id: "1",
           name: "Asus Tuf Dash F15",
           title: "Asus Tuf Laptop",
           status: "Active",

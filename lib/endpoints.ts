@@ -9,6 +9,6 @@ export const SIGN_IN = "/auth/SignIn";
 export const VERIFICATION = "/auth/Verification";
 
 // MAIN
-export const LOAD_CHAT_LIST = "/api/LoadChatData";
+export const GET_SINGLE_PRODUCT = "/api/GetSingleItem";
 export const LOAD_CHAT_DATA = "/api/LoadChatHistory";
 export const SEND_MESSAGE = "/api/SendMessage";

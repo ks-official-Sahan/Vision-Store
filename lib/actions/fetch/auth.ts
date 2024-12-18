@@ -21,6 +21,7 @@ export const signup = async ({ name, email, password }: any) => {
       method: "POST",
       body: JSON.stringify({ name, email, password }),
       headers: API_CONFIG.headers,
+      credentials: "include",
     });
 
     const responseDto: ResponseDTO = await handleResponse(response);
@@ -43,6 +44,7 @@ export const signin = async ({ email, password }: any) => {
       method: "POST",
       body: JSON.stringify({ email, password }),
       headers: API_CONFIG.headers,
+      credentials: "include",
     });
 
     const responseDto: ResponseDTO = await handleResponse(response);
@@ -65,6 +67,7 @@ export const verification = async ({ email, verification }: any) => {
       method: "POST",
       body: JSON.stringify({ email, verification }),
       headers: API_CONFIG.headers,
+      credentials: "include",
     });
 
     const responseDto: ResponseDTO = await handleResponse(response);

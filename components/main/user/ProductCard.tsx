@@ -70,10 +70,10 @@ const ProductCard = ({
         <p className="max-h-14 overflow-hidden text-ellipsis whitespace-nowrap ">
           {title}
         </p>
-        <div className="flex items-center justify-between mt-3 gap-2 px-2">
+        <div className="flex items-center justify-between flex-wrap mt-3 gap-2 px-2">
           <div className="flex gap-1 items-center">
             <span className="font-robert-medium text-lg">{getValue()}</span>
-            <span className="font-robert-medium text-md text-red-400">
+            <span className="font-robert-medium text-md line-through text-red-400">
               {getValue(10)}
             </span>
           </div>

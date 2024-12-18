@@ -7,7 +7,7 @@ export const validateEmail = (email: string | undefined | null) => {
     : null;
 };
 
-export const validateMobile = (mobile: string | undefined | null) => {
+export const validateMobile = (sm: string | undefined | null) => {
   const mobileRegex = /^\+?[1-9]\d{1,14}$/;
   return !mobile
     ? "Please fill in the Mobile Number"

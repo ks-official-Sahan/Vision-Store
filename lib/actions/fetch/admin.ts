@@ -6,13 +6,13 @@ import API_CONFIG, {
   ReturnData,
   saveData,
 } from "@/lib/api";
-import { CREATE_FIRST_USER } from "@/lib/endpoints";
+import { ADMIN_VERIFICATION, CREATE_FIRST_USER } from "@/lib/endpoints";
 import { useRouter } from "next/navigation";
 import { handleError, handleResponse, handleResult } from "./main";
 import { CreateFirstUserFormProps } from "@/app/(super)/admin/(auth)/create-first-user/page";
 import { AdminSignInFormProps } from "@/app/(super)/admin/(auth)/sign-in/page";
 
-/* eslint-disable react-hooks/rules-of-hooks */ 
+/* eslint-disable react-hooks/rules-of-hooks */
 export const GetCurrentAdmin = async () => {
   const router = useRouter();
   const admin = await getData("admin");
@@ -35,6 +35,7 @@ export const createFirstUser = async ({
       method: "POST",
       body: JSON.stringify({ email, password, name, role, stripeCustomer }),
       headers: API_CONFIG.headers,
+      credentials: "include",
     });
 
     const responseDto: ResponseDTO = await handleResponse(response);
@@ -62,6 +63,7 @@ export const adminSignIn = async ({
       method: "POST",
       body: JSON.stringify({ email, password }),
       headers: API_CONFIG.headers,
+      credentials: "include",
     });
 
     const responseDto: ResponseDTO = await handleResponse(response);
@@ -76,5 +78,29 @@ export const adminSignIn = async ({
   } catch (error: Error | any) {
     handleError(error);
     return { status: RESULT.error, message: error.message };
+  }
+};
+
+/* Verification */
+export const verification = async ({ email, verification }: any) => {
+  try {
+    const response = await fetch(API_CONFIG.baseURL + ADMIN_VERIFICATION, {
+      method: "POST",
+      body: JSON.stringify({ email, verification }),
+      headers: API_CONFIG.headers,
+      credentials: "include",
+    });
+
+    const responseDto: ResponseDTO = await handleResponse(response);
+
+    const result = handleResult(responseDto);
+
+    if (result.data) {
+      await saveData("user", result.data);
+    }
+
+    return result;
+  } catch (error) {
+    handleError(error);
   }
 };
