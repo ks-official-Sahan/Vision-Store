@@ -12,6 +12,7 @@ type NavBarProps = {
   toggle: () => void;
   data: Navigation;
   type: "user" | "admin";
+  isUser?: boolean;
 };
 
 type SideBarProps = {
@@ -21,6 +22,7 @@ type SideBarProps = {
   close: () => void;
   data: Navigation;
   type: "user" | "admin";
+  isUser?: boolean;
 };
 
 type Navigation = {

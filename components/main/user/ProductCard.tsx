@@ -11,6 +11,7 @@ import React from "react";
 import CustomButton from "../CustomButton";
 import { useRouter } from "next/navigation";
 import { routes } from "@/data";
+import { RATE } from "@/lib/api";
 
 interface ProductCardProps {
   src?: any;
@@ -52,7 +53,7 @@ const ProductCard = ({
       price = parseFloat(price as string);
       price = (price * (discount + 100)) / 100;
     }
-    return `${currency}${price}`;
+    return `${currency} ${price}`;
   };
 
   return (
@@ -67,14 +68,14 @@ const ProductCard = ({
         />
       </CardHeader>
       <CardContent>
-        <p className="max-h-14 overflow-hidden text-ellipsis whitespace-nowrap ">
+        <p className="max-h-14 overflow-hidden text-ellipsis whitespace-nowrap line-clamp-2 ">
           {title}
         </p>
         <div className="flex items-center justify-between flex-wrap mt-3 gap-2 px-2">
           <div className="flex gap-1 items-center">
             <span className="font-robert-medium text-lg">{getValue()}</span>
             <span className="font-robert-medium text-md line-through text-red-400">
-              {getValue(10)}
+              {getValue(RATE)}
             </span>
           </div>
           <span className="rounded-full bg-white text-black-200 text-sm flex-center px-2 ">

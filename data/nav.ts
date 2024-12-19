@@ -28,6 +28,7 @@ export const routes = {
   HOME: { title: "Home", path: "/" },
   STORE: { title: "Store", path: "/store" },
   CART: { title: "Cart", path: "/cart" },
+  CHECKOUT: { title: "Checkout", path: "/checkout" },
   ACCOUNT: { title: "Account", path: "/account" },
   SEARCH: { title: "Search", path: "/search" },
 
@@ -35,15 +36,9 @@ export const routes = {
   VIEW_PRODUCT: { title: "View Product", path: "/products/" },
 };
 
-const navbarItems = [
-  routes.HOME,
-  routes.STORE,
-  routes.SEARCH,
-  routes.CART,
-  routes.ACCOUNT,
-];
+const navbarItems = [routes.HOME, routes.STORE, routes.SEARCH, routes.CART];
 
-const sidebarItems = [...navbarItems, routes.SIGN_IN];
+const sidebarItems = [...navbarItems];
 
 export const siteNavigations = {
   navbar: navbarItems,

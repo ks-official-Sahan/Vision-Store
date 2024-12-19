@@ -14,6 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { adminRoutes } from "@/data";
+import { CURRENCY } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -23,7 +24,7 @@ const ProductsPage = () => {
   // const [products, setProducts] = useState([]);
   // const [fetchedProducts, setFetchedProducts] = useState([]);
   const [total, setTotal] = useState(0.0);
-  const [currency, setCurrency] = useState("$");
+  const [currency, setCurrency] = useState(CURRENCY);
   const [isLoading, setIsLoading] = useState(true);
 
   const [fetchedProducts, setFetchedProducts] = useState<any>([]);

@@ -1,6 +1,12 @@
-import API_CONFIG, { getData, ResponseDTO, RESULT, saveData } from "../../api";
+import API_CONFIG, {
+  getData,
+  removeData,
+  ResponseDTO,
+  RESULT,
+  saveData,
+} from "../../api";
 import { handleError, handleResponse, handleResult } from "./main";
-import { SIGN_IN, SIGN_UP, VERIFICATION } from "@/lib/endpoints";
+import { SIGN_IN, SIGN_OUT, SIGN_UP, VERIFICATION } from "@/lib/endpoints";
 import { useRouter } from "next/navigation";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -12,6 +18,41 @@ export const GetCurrentUser = async () => {
   // return alert("Please Login");
   // return router.push("/sign-in");
   return router.replace("/");
+};
+
+export const isUserAvailable = async (returnData?: boolean) => {
+  const user = await getData();
+  // console.log(returnData);
+  // console.log(user);
+  if (user) {
+    if (returnData) return user;
+    return true;
+  }
+  return false;
+};
+
+export const signout = async ({ email }: { email?: string }) => {
+  try {
+    // const response = await fetch(API_CONFIG.baseURL + SIGN_OUT, {
+    //   method: "POST",
+    //   body: JSON.stringify({ email }),
+    //   headers: API_CONFIG.headers,
+    //   credentials: "include",
+    // });
+    //
+    // const responseDto: ResponseDTO = await handleResponse(response);
+    // const result = handleResult(responseDto);
+    //
+    // if (result.data) {
+    //   console.log("Data Saved");
+    //   await saveData("user", result.data);
+    // }
+    // return result;
+    await removeData();
+    return { status: RESULT.success };
+  } catch (error) {
+    handleError(error);
+  }
 };
 
 /* Sign Up */
@@ -52,6 +93,7 @@ export const signin = async ({ email, password }: any) => {
     const result = handleResult(responseDto);
 
     if (result.data) {
+      console.log("Data Saved");
       await saveData("user", result.data);
     }
 

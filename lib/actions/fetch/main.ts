@@ -8,6 +8,7 @@ export const handleResponse = async (response: Response | any) => {
         cause: response,
       });
     }
+    // console.log(response);
 
     return await response.json();
   } catch (error) {

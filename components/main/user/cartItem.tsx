@@ -1,3 +1,4 @@
+import { CURRENCY, IMAGE_PATH } from "@/lib/api";
 import Image from "next/image";
 
 export interface CartItemDTO {
@@ -14,7 +15,9 @@ interface props {
 }
 
 export default function CartItem({ data }: props) {
-  const imagePath = `http://localhost:8080/my-fresh-goods-api/product-images/${data.id}/image1.png`;
+  // const imagePath = `${IMAGE_PATH}${data.id}/image1.png`;
+  // const imagePath = `${IMAGE_PATH}${data.id}`;
+  const imagePath = `${IMAGE_PATH}static-image.jpg`;
   if (data.id == 0) {
     return null;
   } else {
@@ -28,11 +31,11 @@ export default function CartItem({ data }: props) {
           </div>
           {/* title and price */}
           <div className=" flex flex-col justify-center ">
-            <span className=" font-semibold  text-[20px] text-black">
+            <span className=" font-semibold  text-[20px]">
               {data.itemName}
             </span>
-            <span className=" font-bold  text-[24px] text-black">
-              LKR {data.price}
+            <span className=" font-bold  text-[24px]">
+              {CURRENCY} {data.price}
             </span>
           </div>
         </div>
@@ -40,13 +43,13 @@ export default function CartItem({ data }: props) {
         <div className=" flex flex-row  items-center gap-[25px]">
           <div className="flex flex-col ">
             <div className=" bg-[#ABFF52] border-[2px] rounded-full box-border p-[15px]">
-              <span className=" font-semibold text-black">{data.qty}</span>
+              <span className=" font-semibold">{data.qty}</span>
             </div>
           </div>
 
           <div className="flex flex-col ">
             <div className=" bg-[#CDCDCD] border-[2px] flex flex-row  justify-center items-center rounded-full box-border  h-[40px] w-[40px]">
-              <span className="font-semibold text-black">X</span>
+              <span className="font-semibold">X</span>
             </div>
           </div>
         </div>

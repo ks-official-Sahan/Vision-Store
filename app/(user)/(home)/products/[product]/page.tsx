@@ -10,7 +10,7 @@ import QuantitySelector from "@/components/main/user/QuantitySelector";
 import WrapperContainer from "@/components/wrapper/wrapperContainer";
 import { routes } from "@/data";
 import { getSingleProduct } from "@/lib/actions/fetch/product";
-import { IMAGE_PATH, RESULT } from "@/lib/api";
+import { CURRENCY, IMAGE_PATH, RATE, RESULT } from "@/lib/api";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
@@ -86,7 +86,7 @@ const ProductPage = () => {
     // }
   };
 
-  const [currency, setCurrency] = useState("LKR");
+  const [currency, setCurrency] = useState(CURRENCY);
 
   const getValue = (price: number | string, discount?: number) => {
     if (discount) {
@@ -156,7 +156,7 @@ const ProductPage = () => {
                           {getValue(getProduct.price)}
                         </span>
                         <span className="font-robert-medium text-xl line-through text-red-400">
-                          {getValue(getProduct.price, 10)}
+                          {getValue(getProduct.price, RATE)}
                         </span>
                       </div>
                     </div>

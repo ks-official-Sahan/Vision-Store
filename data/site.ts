@@ -29,7 +29,7 @@ export const siteMetadata: Metadata | any = {
       name: "Sahan Sachintha",
     },
   ],
-  icons: "@/public/favicon.ico",
+  icons: "/favicon.ico",
   alternates: { canonical: "https://SahanSachintha.com" },
   siteUrl: "https://SahanSachintha.com",
   githubUsername: "ks-official-sahan",
