@@ -24,7 +24,7 @@ const Home = () => {
     setUser(user);
     fetchProducts(user);
   };
-
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     setIsLoading(true);
     setTimeout(() => {

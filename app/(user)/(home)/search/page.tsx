@@ -34,6 +34,8 @@ const SearchPage = ({ isModal = false }: { isModal?: boolean }) => {
     setUser(user);
   };
 
+  /* eslint-disable react-hooks/exhaustive-deps */
+
   useEffect(() => {
     fetchProducts();
     fetchCategories();
