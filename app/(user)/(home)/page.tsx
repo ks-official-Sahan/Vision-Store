@@ -4,6 +4,7 @@ import CustomButton from "@/components/main/CustomButton";
 import Loading from "@/components/main/Loading";
 import ProductCard from "@/components/main/user/ProductCard";
 import { adminRoutes } from "@/data";
+import { isUserAvailable } from "@/lib/actions/fetch/auth";
 import { fetchItems } from "@/lib/actions/fetch/product";
 import { CURRENCY, IMAGE_PATH, RESULT } from "@/lib/api";
 import { useRouter } from "next/navigation";
@@ -16,12 +17,23 @@ const Home = () => {
   const [fetchedProducts, setFetchedProducts] = useState<any>([]);
   const [categories, setCategories] = useState<any>([]);
   const [currency, setCurrency] = useState(CURRENCY);
+  const [getUser, setUser] = useState(null);
+
+  const getData = async () => {
+    const user = await isUserAvailable(true);
+    setUser(user);
+    fetchProducts(user);
+  };
 
   useEffect(() => {
-    fetchProducts();
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    getData();
   }, []);
 
-  const fetchProducts = async () => {
+  const fetchProducts = async (user?: any) => {
     try {
       setIsLoading(true);
       const result = await fetchItems();
@@ -32,6 +44,7 @@ const Home = () => {
         const { itemList, categoryList } = result.data;
         setFetchedProducts([...itemList]);
         setCategories(categoryList);
+        if (user) setUser(user);
       }
     } catch (error: Error | any) {
       console.error(error.message);
@@ -96,6 +109,7 @@ const Home = () => {
               quantity={product.quantity}
               alt={"Product Image"}
               url={product.id}
+              user={getUser}
             />
           );
         })}
@@ -119,6 +133,7 @@ const Home = () => {
                     quantity={product.quantity}
                     alt="Product Image"
                     url={product.id}
+                    user={getUser}
                   />
                 ))}
               </div>

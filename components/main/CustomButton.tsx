@@ -2,7 +2,7 @@ import { Button } from "@nextui-org/react";
 
 interface CustomButtonProps {
   title: string;
-  handlePress: () => void;
+  handlePress?: () => void;
   className?: string | undefined;
   textStyle?: string;
   isLoading?: boolean;

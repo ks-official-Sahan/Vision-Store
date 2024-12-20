@@ -2,6 +2,8 @@
 USER NAVIGATIONS 
 */
 
+export const HOST = "http://localhost:3000";
+
 export type RouteProps = {
   // title: string | undefined | null;
   title: string;
@@ -29,6 +31,7 @@ export const routes = {
   STORE: { title: "Store", path: "/store" },
   CART: { title: "Cart", path: "/cart" },
   CHECKOUT: { title: "Checkout", path: "/checkout" },
+  CHECKOUT_COMPLETE: { title: "Checkout Complete", path: "/checkout/complete" },
   ACCOUNT: { title: "Account", path: "/account" },
   SEARCH: { title: "Search", path: "/search" },
 
@@ -36,7 +39,12 @@ export const routes = {
   VIEW_PRODUCT: { title: "View Product", path: "/products/" },
 };
 
-const navbarItems = [routes.HOME, routes.STORE, routes.SEARCH, routes.CART];
+const navbarItems = [
+  routes.HOME,
+  //  routes.STORE,
+  routes.SEARCH,
+  routes.CART,
+];
 
 const sidebarItems = [...navbarItems];
 

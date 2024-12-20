@@ -7,7 +7,7 @@ export const validateEmail = (email: string | undefined | null) => {
     : null;
 };
 
-export const validateMobile = (sm: string | undefined | null) => {
+export const validateMobile = (mobile: string | undefined | null) => {
   const mobileRegex = /^\+?[1-9]\d{1,14}$/;
   return !mobile
     ? "Please fill in the Mobile Number"
@@ -43,6 +43,15 @@ export const validateAvailability = (
   name?: string | undefined | null
 ) => {
   return data ? null : `Please fill in the ${name ? name : "Field"}`;
+};
+
+export const validateSelection = (
+  data: any,
+  name?: string | undefined | null
+) => {
+  return !data || data === "select"
+    ? `Select the ${name ? name : "Value"}`
+    : null;
 };
 
 export const validateFiles = (

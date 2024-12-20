@@ -1,6 +1,6 @@
 export const APP_NAME = "VisionStore";
 export const API_URL = "vision-store-api";
-// export const SERVER_URL = "https://4c8f-2402-d000-8128-1de-69c9-2c17-c4b7-aa1f.ngrok-free.app/";
+// export const SERVER_URL = " https://595c-45-121-91-195.ngrok-free.app";
 export const SERVER_URL = "http://localhost:8080";
 
 const API_CONFIG = {

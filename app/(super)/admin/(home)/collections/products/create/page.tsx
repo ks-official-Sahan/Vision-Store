@@ -8,7 +8,12 @@ import MediaSelector from "@/components/main/MediaSelector";
 import SelectField from "@/components/main/SelectField";
 import WrapperBody from "@/components/wrapper/WrapperBody";
 import { adminRoutes } from "@/data";
-import { validateAvailability } from "@/lib/actions/validations/validate";
+import { fetchCategory } from "@/lib/actions/fetch/product";
+import {
+  validateAvailability,
+  validateSelection,
+} from "@/lib/actions/validations/validate";
+import { RESULT } from "@/lib/api";
 import { error } from "console";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -59,11 +64,18 @@ const ProductCreate = () => {
       title: validateAvailability(form.title),
       name: validateAvailability(form.name),
       price: validateAvailability(form.price),
-      quantity: validateAvailability(form.qunatity),
+      quantity: validateAvailability(form.quantity),
+      category: validateSelection(form.category),
     };
 
     // Update validation results
-    if (errors.title || errors.name || errors.price || errors.quantity) {
+    if (
+      errors.title ||
+      errors.name ||
+      errors.price ||
+      errors.quantity ||
+      errors.category
+    ) {
       setForm((prevForm: any) => ({
         ...prevForm,
         errors,
@@ -75,13 +87,14 @@ const ProductCreate = () => {
   };
 
   const handleCreateProduct = async () => {
+    console.log(form);
     const isValid = validateInputData();
     if (!isValid) return;
 
     try {
       setIsLoading(true);
-      console.log(form);
-      // const result = await adminCreateProduct(form);
+      // console.log(form);
+      const result = await adminCreateProduct(form);
       // if (result.status === RESULT.error) return alert("Something Failed");
 
       //   if (result.status === RESULT.success) {
@@ -97,43 +110,17 @@ const ProductCreate = () => {
   const loadCategories = async () => {
     try {
       setIsLoading(true);
-      // const result = await fetchCategories();
-      // if (result.status === RESULT.error) return alert("Something Failed");
+      const result = await fetchCategory();
+      if (result?.status === RESULT.error) return alert("Something Failed");
+      if (result?.status === RESULT.message) return alert(result.message);
 
-      //   if (result.status === RESULT.data) {
-      // setCategories([...result.data]);
-      setCategories([
-        { title: "Main", value: "main" },
-        { title: "Sub", value: "sub" },
-      ]);
-      //   } else if (result.status === RESULT.success) {
-      // router.replace(adminRoutes.CATEGORIES.path);
-      //   }
+      if (result?.status === RESULT.data) {
+        const { categoryList } = result.data;
+        setCategories(categoryList);
+        // console.log(JSON.stringify(categoryList));
+      }
     } catch (error: Error | any) {
-      alert(`Something went wrong: ${error.message}`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // No need I think
-  const loadProducts = async () => {
-    try {
-      setIsLoading(true);
-      // const result = await fetchProducts();
-      // if (result.status === RESULT.error) return alert("Something Failed");
-
-      //   if (result.status === RESULT.data) {
-      // setProducts([...result.data]);
-      setProducts([
-        { title: "Main", value: "main" },
-        { title: "Sub", value: "sub" },
-      ]);
-      //   } else if (result.status === RESULT.success) {
-      // router.replace(adminRoutes.PRODUCTS.path);
-      //   }
-    } catch (error: Error | any) {
-      alert(`Something went wrong: ${error.message}`);
+      console.error(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -220,6 +207,7 @@ const ProductCreate = () => {
         <section className="col-span-1 md:col-span-2 flex flex-col min-w-[300px] flex-1 w-full gap-5 py-3">
           <SelectField
             title="Category"
+            value={form.category}
             data={categories}
             handleValueChange={(e) => {
               setForm({
@@ -228,6 +216,7 @@ const ProductCreate = () => {
                 errors: { ...form.errors, category: null },
               });
             }}
+            required
             error={form.errors.category}
           />
           <InputField

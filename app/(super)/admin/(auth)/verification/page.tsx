@@ -13,9 +13,9 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import Loading from "@/components/main/Loading";
-import { verification } from "@/lib/actions/fetch/auth";
 import { InputFieldOTP } from "@/components/main/VerificationField";
 import ErrorComponent from "@/components/main/ErrorComponent";
+import { adminverification } from "@/lib/actions/fetch/admin";
 
 export type VerificationFormProps = {
   email: string | null;
@@ -85,7 +85,7 @@ const Verification = () => {
       setIsSubmitting(true);
       // console.log(form);
 
-      const result = await verification(form);
+      const result = await adminverification(form);
 
       if (result?.status === RESULT.error)
         return setErrorMessage("Something Failed");

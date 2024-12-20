@@ -13,8 +13,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { adminRoutes } from "@/data";
-import { CURRENCY } from "@/lib/api";
+import { adminRoutes, HOST, routes } from "@/data";
+import { fetchItems } from "@/lib/actions/fetch/product";
+import { CURRENCY, RESULT } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -32,13 +33,18 @@ const ProductsPage = () => {
 
   useEffect(() => {
     let value = 0.0;
-    products.map((product: any) => (value += parseFloat(product.totalAmount)));
+    products.map((product: any) => (value += parseFloat(product.price)));
 
     setTotal(value);
   }, [products]);
 
   useEffect(() => {
-    setProducts(fetchedProducts);
+    setProducts(
+      fetchedProducts.map((product: any) => ({
+        ...product,
+        id: product.id.toString(),
+      }))
+    );
   }, [fetchedProducts]);
 
   useEffect(() => {
@@ -49,34 +55,17 @@ const ProductsPage = () => {
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
+      const result = await fetchItems();
+      if (result?.status === RESULT.error) return alert("Something Failed");
+      if (result?.status === RESULT.message) return alert(result.message);
 
-      // const result = await adminFetchProducts();
-      // if (result.status === RESULT.error) return alert("Something Failed");
-
-      // if (result.status === RESULT.data) {
-      setFetchedProducts([
-        {
-          id: "PR001",
-          name: "Asus Tuf Dash F15",
-          status: "Active",
-          totalAmount: "250.00",
-          currency: "$",
-          quantity: "10",
-        },
-        {
-          id: "PR004",
-          name: "Asus Tuf Gaming F15",
-          status: "Inactive",
-          totalAmount: "450.00",
-          currency: "$",
-          quantity: "15",
-        },
-      ]);
-      //   } else if (result.status === RESULT.success) {
-      //     router.replace("/admin");
-      //   }
+      if (result?.status === RESULT.data) {
+        const { itemList } = result.data;
+        setFetchedProducts([...itemList]);
+        console.log(itemList);
+      }
     } catch (error: Error | any) {
-      console.log(error.message);
+      console.error(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -87,13 +76,20 @@ const ProductsPage = () => {
 
     const normalizedSearchValue = text.toString().toLowerCase();
     const filteredProducts = fetchedProducts.filter(
-      (product: any) =>
-        product.id.toLowerCase().includes(normalizedSearchValue) ||
-        product.status.toLowerCase().includes(normalizedSearchValue) ||
-        product.totalAmount.includes(normalizedSearchValue)
+      ({ name, id, category, price, title }) =>
+        String(id).toLowerCase().includes(normalizedSearchValue) ||
+        name.toLowerCase().includes(normalizedSearchValue) ||
+        title.toLowerCase().includes(normalizedSearchValue) ||
+        category.toLowerCase().includes(normalizedSearchValue) ||
+        price.toString().includes(normalizedSearchValue)
     );
 
     setProducts([...filteredProducts]);
+  };
+
+  const handleView = (url: string) => {
+    router.push(`${HOST}/${routes.VIEW_PRODUCT.path}/${url}`);
+    // router.push(`${routes.VIEW_PRODUCT.path}/id=${url}`);
   };
 
   return (
@@ -142,21 +138,25 @@ const ProductsPage = () => {
               <TableHead className="w-[100px]">ID</TableHead>
               <TableHead>Name</TableHead>
               <TableHead className="text-center">Quantity</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead>Category</TableHead>
               <TableHead className="text-right">Amount</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {products.map((product: any) => (
-              <TableRow key={product.id} className="h-12">
+              <TableRow
+                key={product.id}
+                className="h-12"
+                onClick={() => handleView(product.id)}
+              >
                 <TableCell className="font-medium">{product.id}</TableCell>
-                <TableCell>{product.name}</TableCell>
+                <TableCell>{product.title}</TableCell>
                 <TableCell className="text-center">
                   {product.quantity}
                 </TableCell>
-                <TableCell>{product.status}</TableCell>
+                <TableCell>{product.category}</TableCell>
                 <TableCell className="text-right">
-                  {product.currency + product.totalAmount}
+                  {`${CURRENCY} ${product.price.toFixed(2)}`}
                 </TableCell>
               </TableRow>
             ))}
@@ -164,7 +164,9 @@ const ProductsPage = () => {
           <TableFooter>
             <TableRow>
               <TableCell colSpan={4}>Total</TableCell>
-              <TableCell className="text-right">{`${currency}${total}.00`}</TableCell>
+              <TableCell className="text-right">{`${CURRENCY} ${total.toFixed(
+                2
+              )}`}</TableCell>
             </TableRow>
           </TableFooter>
         </Table>

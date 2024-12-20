@@ -6,7 +6,12 @@ import API_CONFIG, {
   ReturnData,
   saveData,
 } from "@/lib/api";
-import { ADMIN_VERIFICATION, CREATE_FIRST_USER } from "@/lib/endpoints";
+import {
+  ADMIN_SIGN_IN,
+  ADMIN_VERIFICATION,
+  CREATE_FIRST_USER,
+  SEARCH_ITEMS,
+} from "@/lib/endpoints";
 import { useRouter } from "next/navigation";
 import { handleError, handleResponse, handleResult } from "./main";
 import { CreateFirstUserFormProps } from "@/app/(super)/admin/(auth)/create-first-user/page";
@@ -59,7 +64,7 @@ export const adminSignIn = async ({
   password,
 }: AdminSignInFormProps): Promise<ReturnData> => {
   try {
-    const response = await fetch(API_CONFIG.baseURL + CREATE_FIRST_USER, {
+    const response = await fetch(API_CONFIG.baseURL + ADMIN_SIGN_IN, {
       method: "POST",
       body: JSON.stringify({ email, password }),
       headers: API_CONFIG.headers,
@@ -82,7 +87,7 @@ export const adminSignIn = async ({
 };
 
 /* Verification */
-export const verification = async ({ email, verification }: any) => {
+export const adminverification = async ({ email, verification }: any) => {
   try {
     const response = await fetch(API_CONFIG.baseURL + ADMIN_VERIFICATION, {
       method: "POST",
@@ -104,3 +109,48 @@ export const verification = async ({ email, verification }: any) => {
     handleError(error);
   }
 };
+
+export const adminCreateProduct = async ({
+  searchText,
+  sortText,
+  categoryName,
+  priceRangeStart,
+  priceRangeEnd,
+}: {
+  searchText?: any;
+  sortText?: any;
+  categoryName?: any;
+  priceRangeStart?: any;
+  priceRangeEnd?: any;
+}) => {
+  try {
+    const response = await fetch(`${API_CONFIG.baseURL}${SEARCH_ITEMS}`, {
+      method: "POST",
+      body: JSON.stringify({
+        searchText,
+        sortText,
+        categoryName,
+        priceRangeStart,
+        priceRangeEnd,
+      }),
+      headers: API_CONFIG.headers,
+      credentials: "include",
+    });
+
+    const responseDto: ResponseDTO = await handleResponse(response);
+
+    const result = handleResult(responseDto);
+
+    if (result.data) {
+      // console.log(JSON.stringify(result.data));
+      console.log("Data Received");
+    }
+
+    // console.log(result);
+    return result;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+

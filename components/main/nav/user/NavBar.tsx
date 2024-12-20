@@ -16,6 +16,7 @@ const NavBar = ({
   data,
   type = "user",
   isUser,
+  openSearchModal,
 }: NavBarProps) => {
   return (
     <nav className="flex items-center justify-between w-full relative">
@@ -31,14 +32,52 @@ const NavBar = ({
         <div
           className={`px-[4px] flex items-center  text-[14px] h-[41px] rounded-full border border-[#0000001f] dark:border-[#ffffff1f] backdrop-blur-sm `}
         >
-          {data.navbar.map((item) => (
+          {data.navbar.map((item) => {
+            if (item.title === routes.SEARCH.title)
+              return (
+                <NavItem
+                  key={item.title}
+                  currentPath={currentPath}
+                  title={item.title}
+                  path={item.path}
+                  openSearchModal={openSearchModal}
+                />
+              );
+            return (
+              <NavItem
+                key={item.title}
+                currentPath={currentPath}
+                title={item.title}
+                path={item.path}
+              />
+            );
+          })}
+          {isUser ? (
+            // Show "Account" and "Logout" for authenticated users
+            <>
+              {/* <NavItem
+                key="account"
+                currentPath={currentPath}
+                title={routes.ACCOUNT.title}
+                isSideBarItem={true}
+              /> */}
+              <NavItem
+                key="logout"
+                currentPath={currentPath}
+                title={routes.LOGOUT.title}
+                isSideBarItem={true}
+              />
+            </>
+          ) : (
+            // Show "Sign In" for unauthenticated users
             <NavItem
-              key={item.title}
+              key="sign-in"
               currentPath={currentPath}
-              title={item.title}
-              path={item.path}
+              title={routes.SIGN_IN.title}
+              path={`${routes.SIGN_IN.path}`}
+              isSideBarItem={true}
             />
-          ))}
+          )}
         </div>
       </div>
 

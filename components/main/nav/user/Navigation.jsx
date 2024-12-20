@@ -9,12 +9,18 @@ import NavBar from "./NavBar";
 import { routes, Site, siteNavigations } from "@/data";
 import WrapperBody from "@/components/wrapper/WrapperBody";
 import { isUserAvailable } from "@/lib/actions/fetch/auth";
+import SearchModal from "../../SearchModal";
 
 const Navigation = () => {
   const [currentPath, setCurrentPath] = useState("");
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const path = usePathname();
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const openSearchModal = () => setIsSearchOpen(true);
+  const closeSearchModal = () => setIsSearchOpen(false);
 
   const [isUser, setIsUser] = useState(false);
   useEffect(() => {
@@ -84,7 +90,10 @@ const Navigation = () => {
           opened={opened}
           toggle={toggle}
           isUser={isUser}
+          openSearchModal={openSearchModal}
         />
+
+        <SearchModal isOpen={isSearchOpen} onClose={closeSearchModal} />
       </WrapperBody>
       {/* </div> */}
     </motion.header>

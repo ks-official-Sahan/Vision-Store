@@ -8,15 +8,17 @@ import ShopSVG from "@/components/main/svg/ShopSVG";
 import ProductCard from "@/components/main/user/ProductCard";
 import QuantitySelector from "@/components/main/user/QuantitySelector";
 import WrapperContainer from "@/components/wrapper/wrapperContainer";
-import { routes } from "@/data";
-import { getSingleProduct } from "@/lib/actions/fetch/product";
+import { HOST, routes } from "@/data";
+import { isUserAvailable } from "@/lib/actions/fetch/auth";
+import { addToCart, getSingleProduct } from "@/lib/actions/fetch/product";
 import { CURRENCY, IMAGE_PATH, RATE, RESULT } from "@/lib/api";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 
 const ProductPage = () => {
   const { product } = useParams();
+  const router = useRouter();
   // console.log(product);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +40,14 @@ const ProductPage = () => {
     setProduct(currentProduct);
     setItemQty(parseInt(currentProduct.quantity));
     if (getProduct) setIsLoading(false);
+  };
+
+  const [getUser, setUser] = useState(null);
+
+  const getData = async () => {
+    const user = await isUserAvailable(true);
+    setUser(user);
+    handleFetchItem();
   };
 
   const handleFetchItem = async () => {
@@ -74,16 +84,40 @@ const ProductPage = () => {
 
   useEffect(() => {
     // handleFetching();
-    handleFetchItem();
+    // handleFetchItem();
+    getData();
   }, [product]);
 
-  const add = async (itemId: string, qty: string) => {
-    // const response = await AddToCart(itemId, qty);
-    // if (response.status) {
-    //   console.log(response.message);
-    // } else {
-    //   console.log(response.message);
-    // }
+  const handleBuyNow = () => {
+    // router.push(`${routes.VIEW_PRODUCT.path}/${url}`);
+    // router.push(`${routes.VIEW_PRODUCT.path}/id=${url}`);
+    alert("Buy Now");
+  };
+
+  const handleAddToCart = async () => {
+    // router.push(`${routes.CART.path}/${url}`);
+    // router.push(`${routes.CART.path}?id=${url}`);
+    try {
+      const result = await addToCart({
+        email: getUser?.email ?? "",
+        pid: product,
+        qty: getQty,
+      });
+      if (result?.status === RESULT.error) return alert("Something Failed");
+      if (result?.status === RESULT.message) return alert(result.message);
+
+      if (result?.status === RESULT.data) {
+        console.log("Data Received");
+      }
+      if (result?.status === RESULT.success) {
+        console.log("Success");
+        alert("Item Added To Cart");
+        // redirect(`${HOST}/${routes.CART.path}`);
+        router.push(`${HOST}/${routes.CART.path}`);
+      }
+    } catch (error: Error | any) {
+      console.error(error.message);
+    }
   };
 
   const [currency, setCurrency] = useState(CURRENCY);
@@ -93,7 +127,7 @@ const ProductPage = () => {
       price = parseFloat(price as string);
       price = (price * (discount + 100)) / 100;
     }
-    return `${currency}${price}`;
+    return `${currency} ${price}`;
   };
 
   return (
@@ -117,9 +151,9 @@ const ProductPage = () => {
             {getProduct && (
               <>
                 {/* image and detalis section */}
-                <div className="w-full flex flex-row  mid:flex-col sm:flex-col gap-[10px]">
+                <div className="w-full flex flex-row sm:flex-col gap-[10px] md:flex-wrap justify-center">
                   {/* image section */}
-                  <div className="w-2/5 sm:w-full mid:w-full ">
+                  <div className="lg:max-w-2/5 w-fit sm:w-full md:max-w-1/2 ">
                     <div className="w-[460px] h-[460px] sm:w-full border border-zinc-300 rounded-[10px] flex flex-row justify-center items-center">
                       <Image
                         src={`${imagePath}${getProduct.imagePath}`}
@@ -134,7 +168,7 @@ const ProductPage = () => {
                   </div>
 
                   {/* detalis section */}
-                  <div className="w-3/5 sm:w-full  mid:w-full sm:items-center gap-3 flex box-border p-5 pt-0 sm:pl-0 sm:pr-0 sm:pt-5 flex-col">
+                  <div className="lg:max-w-3/5 sm:w-full md:max-w-1/2 sm:items-center gap-3 flex box-border p-5 pt-0 sm:pl-0 sm:pr-0 sm:pt-5 flex-col">
                     {/* item name */}
                     <div className="w-full flex">
                       <span className="text-xl font-robert-medium text-gray-500 max-h-14 overflow-hidden text-ellipsis whitespace-nowrap">
@@ -186,21 +220,17 @@ const ProductPage = () => {
                       </div>
 
                       {/* Buy Now */}
-                      <CustomButton
+                      {/* <CustomButton
                         title="Buy Now"
                         className={"px-8"}
-                        handlePress={() => {
-                          add(product as string, getQty.toString());
-                        }}
-                      />
+                        handlePress={() => handleBuyNow}
+                      /> */}
 
                       {/* ADD TO CART */}
                       <CustomButton
                         title="Add to Cart"
                         className={"px-8"}
-                        handlePress={() => {
-                          add(product as string, getQty.toString());
-                        }}
+                        handlePress={handleAddToCart}
                       />
                     </div>
                   </div>
@@ -211,15 +241,15 @@ const ProductPage = () => {
         </div>
 
         {getProduct && (
-          <div className=" w-full flex flex-col border-zinc-500 border rounded-md">
-            <WrapperContainer>
-              <div className=" w-full flex flex-col gap-[15px] py-[40px] box-border">
+          <div className="w-full flex flex-col flex-wrap border-zinc-500 border rounded-md mt-5">
+            <div>
+              <div className="w-full flex flex-wrap flex-col gap-[15px] py-10 px-5 box-border">
                 <span className="text-xl font-semibold">Item Description</span>
                 <p className="  text-sm font-medium">
                   {getProduct.description}
                 </p>
               </div>
-            </WrapperContainer>
+            </div>
           </div>
         )}
 

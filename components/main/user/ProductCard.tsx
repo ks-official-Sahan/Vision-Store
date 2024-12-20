@@ -7,11 +7,12 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import CustomButton from "../CustomButton";
 import { useRouter } from "next/navigation";
 import { routes } from "@/data";
-import { RATE } from "@/lib/api";
+import { RATE, RESULT } from "@/lib/api";
+import { addToCart } from "@/lib/actions/fetch/product";
 
 interface ProductCardProps {
   src?: any;
@@ -23,6 +24,7 @@ interface ProductCardProps {
   price?: number | string;
   currency?: string;
   quantity?: number | string;
+  user?: { email?: string } | null;
 }
 
 const ProductCard = ({
@@ -35,6 +37,7 @@ const ProductCard = ({
   currency = "$",
   price = 250,
   quantity = 1,
+  user,
 }: ProductCardProps) => {
   const router = useRouter();
 
@@ -43,9 +46,29 @@ const ProductCard = ({
     // router.push(`${routes.VIEW_PRODUCT.path}/id=${url}`);
   };
 
-  const handleAddToCart = () => {
-    router.push(`${routes.CART.path}/${url}`);
-    router.push(`${routes.CART.path}?id=${url}`);
+  const handleAddToCart = async () => {
+    // router.push(`${routes.CART.path}/${url}`);
+    // router.push(`${routes.CART.path}?id=${url}`);
+    try {
+      const result = await addToCart({
+        email: user?.email ?? "",
+        pid: url,
+        qty: 1,
+      });
+      if (result?.status === RESULT.error) return alert("Something Failed");
+      if (result?.status === RESULT.message) return alert(result.message);
+
+      if (result?.status === RESULT.data) {
+        console.log("Data Received");
+      }
+      if (result?.status === RESULT.success) {
+        console.log("Success");
+        alert("Item Added To Cart");
+      }
+    } catch (error: Error | any) {
+      console.error(error.message);
+      router.push(routes.CART.path);
+    }
   };
 
   const getValue = (discount?: number) => {

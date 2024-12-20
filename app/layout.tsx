@@ -34,6 +34,10 @@ export default function RootLayout({
             </MantineProvider>
           </ThemeProvider>
         </Suspense>
+        <script
+          type="text/javascript"
+          src="https://www.payhere.lk/lib/payhere.js"
+        ></script>
       </body>
     </html>
   );

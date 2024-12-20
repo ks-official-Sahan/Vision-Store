@@ -16,16 +16,20 @@ import {
 } from "@/components/ui/table";
 import { routes } from "@/data";
 import { isUserAvailable } from "@/lib/actions/fetch/auth";
-import { fetchCartItems } from "@/lib/actions/fetch/product";
+import { fetchCartItems, processToCheckout } from "@/lib/actions/fetch/product";
 import { CURRENCY, IMAGE_PATH, RESULT } from "@/lib/api";
 import { TrashIcon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Cart() {
+  const router = useRouter();
+
   const [total, setTotal] = useState(0.0);
   const [currency, setCurrency] = useState(CURRENCY);
   const [isLoading, setIsLoading] = useState(true);
+  const [getUser, setUser] = useState(null);
 
   const [fetchedCart, setFetchedCart] = useState<any[]>([]);
   const [cartItems, setCartItems] = useState<any[]>([]);
@@ -51,10 +55,15 @@ export default function Cart() {
     //   setUser(res);
     // });
     const user = await isUserAvailable(true);
-    fetchCart(user);
+    setUser(user);
+    // fetchCart(user);
   };
 
   /* eslint-disable react-hooks/exhaustive-deps */
+
+  useEffect(() => {
+    if (getUser) fetchCart(getUser);
+  }, [getUser]);
 
   useEffect(() => {
     getData();
@@ -93,6 +102,28 @@ export default function Cart() {
   const handleRemove = (id: string) => {
     const filteredcartItems = cartItems.filter((cart) => cart.id !== id);
     setCartItems(filteredcartItems);
+  };
+
+  const handleCheckout = async () => {
+    if (cartItems.length == 0) return;
+
+    try {
+      setIsLoading(true);
+      const result = await processToCheckout({
+        email: getUser?.email,
+        cartItems: cartItems,
+      });
+      if (result?.status === RESULT.error) return alert("Something Failed");
+      if (result?.status === RESULT.message) return alert(result.message);
+
+      if (result?.status === RESULT.success) {
+        router.push(routes.CHECKOUT.path);
+      }
+    } catch (error: Error | any) {
+      console.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -156,10 +187,12 @@ export default function Cart() {
                           </Button>
                         </div>
                       </TableCell>
-                      <TableCell>{`${currency} ${cart.price}`}</TableCell>
-                      <TableCell className="text-right">{`${currency} ${
+                      <TableCell>{`${currency} ${cart.price.toFixed(
+                        2
+                      )}`}</TableCell>
+                      <TableCell className="text-right">{`${currency} ${(
                         parseFloat(cart.price) * cart.qty
-                      }.00`}</TableCell>
+                      ).toFixed(2)}`}</TableCell>
                     </TableRow>
                   ))}
                 </>
@@ -180,7 +213,9 @@ export default function Cart() {
                 <TableCell colSpan={4} className="text-lg">
                   Total
                 </TableCell>
-                <TableCell className="text-right text-lg">{`${currency} ${total}.00`}</TableCell>
+                <TableCell className="text-right text-lg">{`${currency} ${total.toFixed(
+                  2
+                )}`}</TableCell>
               </TableRow>
             </TableFooter>
           </Table>
@@ -199,15 +234,15 @@ export default function Cart() {
             </div>
 
             <div className="flex justify-between items-center">
-              <span className="text-[30px] font-bold">Total</span>
-              <span className="text-[36px] text-right font-bold">
-                {currency} {total}
+              <span className="text-2xl font-bold">Total</span>
+              <span className="text-2xl text-right font-bold">
+                {currency} {total.toFixed(2)}
               </span>
             </div>
           </div>
         </div>
 
-        <CustomButton handlePress={() => {}} title="Checkout" />
+        <CustomButton handlePress={() => handleCheckout()} title="Checkout" />
       </div>
     </section>
   );

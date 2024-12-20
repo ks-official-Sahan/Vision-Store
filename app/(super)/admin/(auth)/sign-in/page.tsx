@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Loading from "@/components/main/Loading";
+import ErrorComponent from "@/components/main/ErrorComponent";
 
 export type AdminSignInFormProps = {
   email: string;
@@ -62,7 +63,7 @@ const AdminSignIn = () => {
 
     try {
       setIsSubmitting(true);
-      console.log(form);
+      // console.log(form);
       const result = await adminSignIn(form);
       if (result.status === RESULT.error)
         return setErrorMessage("Something Failed");
@@ -157,6 +158,11 @@ const AdminSignIn = () => {
             Forget Password?
           </Link>
         </article>
+
+        <ErrorComponent
+          errorMessage={errorMessage}
+          setErrorMessage={setErrorMessage}
+        />
 
         <CustomButton
           className="h-14 w-full mt-7 mb-10"
