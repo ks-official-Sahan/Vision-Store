@@ -8,6 +8,7 @@ import MediaSelector from "@/components/main/MediaSelector";
 import SelectField from "@/components/main/SelectField";
 import WrapperBody from "@/components/wrapper/WrapperBody";
 import { adminRoutes } from "@/data";
+import { adminCreateProduct } from "@/lib/actions/fetch/admin";
 import { fetchCategory } from "@/lib/actions/fetch/product";
 import {
   validateAvailability,
@@ -59,6 +60,8 @@ const ProductCreate = () => {
   };
 
   const validateInputData = () => {
+    console.log(form);
+
     // Validation of required data
     const errors = {
       title: validateAvailability(form.title),

@@ -67,8 +67,8 @@ const SelectField = ({
           {data?.map((item) => (
             <option
               className="text-black bg-white/10"
-              key={item.value ? item.value : item.name}
-              value={item.value ? item.value : item.name}
+              key={item.value ? item.value : item.id ? item.id : item.name}
+              value={item.value ? item.value : item.id ? item.id : item.name}
               // selected={(item.value ? item.value : item.name) === value}
             >
               {item.title ? item.title : item.name}

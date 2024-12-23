@@ -60,7 +60,7 @@ const Checkout = () => {
   const [shipping, setShipping] = useState(500.0);
   const [currency, setCurrency] = useState(CURRENCY);
   const [isLoading, setIsLoading] = useState(true);
-  const [getUser, setUser] = useState(null);
+  const [getUser, setUser] = useState<any>(null);
 
   const [fetchedCart, setFetchedCart] = useState<any[]>([]);
   const [fetchedCities, setFetchedCities] = useState<any[]>([]);
@@ -178,6 +178,9 @@ const Checkout = () => {
     script.src = "https://www.payhere.lk/lib/payhere.js";
     script.async = true;
     document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
   useEffect(() => {

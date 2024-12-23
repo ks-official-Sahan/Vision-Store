@@ -21,14 +21,14 @@ const ProductPage = () => {
   const router = useRouter();
   // console.log(product);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // const imagePath = `${IMAGE_PATH}/${product}/image1.png`;
   const imagePath = `${IMAGE_PATH}`;
 
   const [fetchedProducts, setFetchedProducts] = useState<any>([]); // Similar Items
 
-  const [getProduct, setProduct] = useState(null);
+  const [getProduct, setProduct] = useState<any>(null);
   const [getQty, setQty] = useState<number>(1); // Selected Quantity
   const [getItemQty, setItemQty] = useState<number>(1); // Real Quantity
 
@@ -42,7 +42,7 @@ const ProductPage = () => {
     if (getProduct) setIsLoading(false);
   };
 
-  const [getUser, setUser] = useState(null);
+  const [getUser, setUser] = useState<any>(null);
 
   const getData = async () => {
     const user = await isUserAvailable(true);
@@ -168,7 +168,7 @@ const ProductPage = () => {
                   </div>
 
                   {/* detalis section */}
-                  <div className="lg:max-w-3/5 sm:w-full md:max-w-1/2 sm:items-center gap-3 flex box-border p-5 pt-0 sm:pl-0 sm:pr-0 sm:pt-5 flex-col">
+                  <div className="lg:w-full sm:w-full md:max-w-1/2 sm:items-center gap-3 flex box-border p-5 pt-0 sm:pl-0 sm:pr-0 sm:pt-5 flex-col">
                     {/* item name */}
                     <div className="w-full flex">
                       <span className="text-xl font-robert-medium text-gray-500 max-h-14 overflow-hidden text-ellipsis whitespace-nowrap">

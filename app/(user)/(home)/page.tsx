@@ -17,7 +17,7 @@ const Home = () => {
   const [fetchedProducts, setFetchedProducts] = useState<any>([]);
   const [categories, setCategories] = useState<any>([]);
   const [currency, setCurrency] = useState(CURRENCY);
-  const [getUser, setUser] = useState(null);
+  const [getUser, setUser] = useState<any>(null);
 
   const getData = async () => {
     const user = await isUserAvailable(true);
@@ -119,7 +119,7 @@ const Home = () => {
         <div key={categoryName} className="mt-10 mb-5">
           {products.length > 0 && (
             <>
-              <h2 className="text-lg font-bold mb-3 border-b-2 pb-3 text-xl font-circular-web">
+              <h2 className="font-bold mb-3 border-b-2 pb-3 text-xl font-circular-web">
                 {categoryName}
               </h2>
               <div className="flex-center flex-wrap gap-5 lg:px-10">

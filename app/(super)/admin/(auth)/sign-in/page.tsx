@@ -36,7 +36,7 @@ const AdminSignIn = () => {
     },
   });
   const [errorMessage, setErrorMessage] = useState<string | undefined>("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const validateUserData = () => {
     // Validation of required data

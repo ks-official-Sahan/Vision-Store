@@ -37,7 +37,7 @@ const InputField = ({
 }: InputFieldProps) => {
   const { theme } = useTheme();
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const isPasswordField = title === "Password" || title === "Confirm Password";
 

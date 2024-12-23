@@ -13,13 +13,14 @@ import {
 import { CURRENCY, IMAGE_PATH, RESULT } from "@/lib/api";
 import React, { useEffect, useState } from "react";
 
-const SearchPage = ({ isModal = false }: { isModal?: boolean }) => {
-  const [isOptions, setIsOptions] = useState(false);
+// const SearchPage = ({ isModal = false }: { isModal: boolean }) => {
+const SearchPage = () => {
+  const [isOptions, setIsOptions] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchedProducts, setFetchedProducts] = useState<any>([]);
   const [categories, setCategories] = useState<any>([]);
   const [currency, setCurrency] = useState(CURRENCY);
-  const [getUser, setUser] = useState(null);
+  const [getUser, setUser] = useState<any>(null);
 
   const [form, setForm] = useState<any>({
     searchText: "",
@@ -80,6 +81,7 @@ const SearchPage = ({ isModal = false }: { isModal?: boolean }) => {
 
   const fetchProducts = async () => {
     try {
+      console.log(form);
       setIsLoading(true);
       const result = await fetchSearchItems(form);
       if (result?.status === RESULT.error) return alert("Something Failed");
@@ -112,8 +114,8 @@ const SearchPage = ({ isModal = false }: { isModal?: boolean }) => {
   }, [form]);
 
   return (
-    <div className="w-full flex flex-col">
-      {!isModal && <h1 className="text-2xl font-bold mb-2">Search</h1>}
+    <div className="w-full flex flex-col overflow-x-hidden overflow-y-auto">
+      {/* {!isModal && <h1 className="text-2xl font-bold mb-2">Search</h1>} */}
 
       <Loading isLoading={isLoading} />
 
@@ -214,6 +216,7 @@ const SearchPage = ({ isModal = false }: { isModal?: boolean }) => {
                     <p>Category</p>
                     <SelectField
                       data={[...categories]}
+                      value={form.categoryName}
                       otherStyle="-mt-6 w-72 h-10"
                       handleValueChange={(e) =>
                         setForm({

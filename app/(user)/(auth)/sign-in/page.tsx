@@ -34,7 +34,7 @@ const SignIn = () => {
       password: null,
     },
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>("");
 
   const validateUserData = () => {

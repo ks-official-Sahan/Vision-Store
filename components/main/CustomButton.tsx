@@ -30,7 +30,7 @@ const CustomButton = ({
       variant={variant}
       onPress={handlePress}
       disabled={isLoading}
-      className={`rounded-xl min-h-12 flex-center px-2 py-1 ${className} ${
+      className={`rounded-xl min-h-10 flex-center px-2 py-1 ${className} ${
         isLoading && "opacity-50"
       }`}
     >

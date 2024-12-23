@@ -31,6 +31,8 @@ const ProductsPage = () => {
   const [fetchedProducts, setFetchedProducts] = useState<any>([]);
   const [products, setProducts] = useState<any>([]);
 
+  const [expandedRow, setExpandedRow] = useState<string | null>(null);
+
   useEffect(() => {
     let value = 0.0;
     products.map((product: any) => (value += parseFloat(product.price)));
@@ -76,7 +78,7 @@ const ProductsPage = () => {
 
     const normalizedSearchValue = text.toString().toLowerCase();
     const filteredProducts = fetchedProducts.filter(
-      ({ name, id, category, price, title }) =>
+      ({ name, id, category, price, title }: any) =>
         String(id).toLowerCase().includes(normalizedSearchValue) ||
         name.toLowerCase().includes(normalizedSearchValue) ||
         title.toLowerCase().includes(normalizedSearchValue) ||
@@ -90,6 +92,10 @@ const ProductsPage = () => {
   const handleView = (url: string) => {
     router.push(`${HOST}/${routes.VIEW_PRODUCT.path}/${url}`);
     // router.push(`${routes.VIEW_PRODUCT.path}/id=${url}`);
+  };
+
+  const handleRowClick = (productId: string) => {
+    setExpandedRow(expandedRow === productId ? null : productId);
   };
 
   return (
@@ -135,7 +141,7 @@ const ProductsPage = () => {
           </TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">ID</TableHead>
+              <TableHead className="min-w-[40px] max-w-[100px]">ID</TableHead>
               <TableHead>Name</TableHead>
               <TableHead className="text-center">Quantity</TableHead>
               <TableHead>Category</TableHead>
@@ -146,11 +152,27 @@ const ProductsPage = () => {
             {products.map((product: any) => (
               <TableRow
                 key={product.id}
-                className="h-12"
-                onClick={() => handleView(product.id)}
+                className="cursor-pointer h-16 py-2"
+                onClick={() => {
+                  handleRowClick(product.id); // Toggle full text on row click
+                  // handleView(product.id); // Navigate to the product view
+                }}
               >
                 <TableCell className="font-medium">{product.id}</TableCell>
-                <TableCell>{product.title}</TableCell>
+                <TableCell
+                  className={`min-w-32 min-h-12 ${
+                    expandedRow === product.id
+                      ? ""
+                      : "max-w-52 overflow-hidden text-ellipsis whitespace-nowrap" // Apply line-clamp only if row is not expanded
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering row click
+                    handleView(product.id); // Navigate to the product view
+                  }}
+                >
+                  {" "}
+                  {product.title}
+                </TableCell>
                 <TableCell className="text-center">
                   {product.quantity}
                 </TableCell>

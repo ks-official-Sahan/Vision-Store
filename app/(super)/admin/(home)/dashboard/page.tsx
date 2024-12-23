@@ -7,7 +7,7 @@ import { dashboardContent, GridCardProps } from "@/data";
 import React, { useEffect, useState } from "react";
 
 const AdminDashboard = () => {
-  const [viewTips, setViewTips] = useState(false);
+  const [viewTips, setViewTips] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

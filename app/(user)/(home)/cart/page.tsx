@@ -29,7 +29,7 @@ export default function Cart() {
   const [total, setTotal] = useState(0.0);
   const [currency, setCurrency] = useState(CURRENCY);
   const [isLoading, setIsLoading] = useState(true);
-  const [getUser, setUser] = useState(null);
+  const [getUser, setUser] = useState<any>(null);
 
   const [fetchedCart, setFetchedCart] = useState<any[]>([]);
   const [cartItems, setCartItems] = useState<any[]>([]);
@@ -46,7 +46,7 @@ export default function Cart() {
     setCartItems(fetchedCart);
   }, [fetchedCart]);
 
-  // const [isUser, setIsUser] = useState(false);
+  // const [isUser, setIsUser] = useState<boolean>(false);
   // const [user, setUser] = useState(null);
   const getData = async () => {
     // isUserAvailable(true).then((res) => {
@@ -141,7 +141,7 @@ export default function Cart() {
 
           <Table className="w-full">
             <TableCaption>
-              A list of current {routes.CART.title} items.
+              A list of current {routes.CART?.title} items.
             </TableCaption>
             <TableHeader>
               <TableRow>
@@ -155,7 +155,7 @@ export default function Cart() {
             <TableBody>
               {cartItems.length > 0 ? (
                 <>
-                  {cartItems.map((cart) => (
+                  {cartItems.map((cart: any) => (
                     <TableRow key={cart.id} className="h-24">
                       <TableCell className="font-medium">{cart.id}</TableCell>
                       <TableCell>
