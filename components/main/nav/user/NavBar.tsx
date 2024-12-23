@@ -6,7 +6,7 @@ import { Button } from "@nextui-org/react";
 import { Burger } from "@mantine/core";
 import NavItem from "../NavItem";
 import ThemeSwitch from "@/components/theme/theme-switch";
-import { routes } from "@/data";
+import { adminRoutes, routes } from "@/data";
 
 const NavBar = ({
   title,
@@ -15,6 +15,8 @@ const NavBar = ({
   toggle,
   data,
   type = "user",
+  isUser,
+  openSearchModal,
 }: NavBarProps) => {
   return (
     <nav className="flex items-center justify-between w-full relative">
@@ -30,13 +32,52 @@ const NavBar = ({
         <div
           className={`px-[4px] flex items-center  text-[14px] h-[41px] rounded-full border border-[#0000001f] dark:border-[#ffffff1f] backdrop-blur-sm `}
         >
-          {data.navbar.map((item) => (
+          {data.navbar.map((item) => {
+            if (item.title === routes.SEARCH.title)
+              return (
+                <NavItem
+                  key={item.title}
+                  currentPath={currentPath}
+                  title={item.title}
+                  path={item.path}
+                  openSearchModal={openSearchModal}
+                />
+              );
+            return (
+              <NavItem
+                key={item.title}
+                currentPath={currentPath}
+                title={item.title}
+                path={item.path}
+              />
+            );
+          })}
+          {isUser ? (
+            // Show "Account" and "Logout" for authenticated users
+            <>
+              {/* <NavItem
+                key="account"
+                currentPath={currentPath}
+                title={routes.ACCOUNT.title}
+                isSideBarItem={true}
+              /> */}
+              <NavItem
+                key="logout"
+                currentPath={currentPath}
+                title={routes.LOGOUT.title}
+                isSideBarItem={true}
+              />
+            </>
+          ) : (
+            // Show "Sign In" for unauthenticated users
             <NavItem
-              key={item.title}
+              key="sign-in"
               currentPath={currentPath}
-              title={item.title}
+              title={routes.SIGN_IN.title}
+              path={`${routes.SIGN_IN.path}`}
+              isSideBarItem={true}
             />
-          ))}
+          )}
         </div>
       </div>
 
@@ -44,9 +85,26 @@ const NavBar = ({
       <div className="hidden sm:flex md:flex lg:flex items-center gap-6 z-[50]">
         <div className="gap-6 sm:hidden flex">
           <ThemeSwitch />
-          <Link href={`${routes.SIGN_IN.path}`} className="md:hidden lg:flex">
+          <Link
+            href={
+              isUser
+                ? type === "user"
+                  ? routes.ACCOUNT.path
+                  : adminRoutes.DASHBOARD.path
+                : !isUser
+                ? routes.SIGN_IN.path
+                : type === "user"
+                ? routes.SIGN_IN.path
+                : adminRoutes.SIGN_IN.path
+            }
+            className="md:hidden lg:flex"
+          >
             <Button className="text-[14px] font-semibold dark:text-black text-white bg-primary-50 h-[37px] px-[20px] rounded-[15px] flex justify-center items-center">
-              {type === "user" ? "Sign In" : "Profile"}
+              {!isUser
+                ? routes.SIGN_IN.title
+                : type === "user"
+                ? routes.ACCOUNT.title
+                : "Profile"}
             </Button>
           </Link>
         </div>

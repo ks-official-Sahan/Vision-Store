@@ -16,6 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // <html lang="en">
     <html lang="en" suppressHydrationWarning={true}>
       {/* <body className={`antialiased`}> */}
       <body>
@@ -33,6 +34,10 @@ export default function RootLayout({
             </MantineProvider>
           </ThemeProvider>
         </Suspense>
+        {/* <script
+          type="text/javascript"
+          src="https://www.payhere.lk/lib/payhere.js"
+        ></script> */}
       </body>
     </html>
   );

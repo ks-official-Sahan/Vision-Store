@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Loading from "@/components/main/Loading";
+import ErrorComponent from "@/components/main/ErrorComponent";
 
 export type AdminSignInFormProps = {
   email: string;
@@ -34,7 +35,8 @@ const AdminSignIn = () => {
       password: null,
     },
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const validateUserData = () => {
     // Validation of required data
@@ -61,15 +63,26 @@ const AdminSignIn = () => {
 
     try {
       setIsSubmitting(true);
-      console.log(form);
-      // const result = await adminSignIn(form);
-      // if (result.status === RESULT.error) return alert("Something Failed");
+      // console.log(form);
+      const result = await adminSignIn(form);
+      if (result.status === RESULT.error)
+        return setErrorMessage("Something Failed");
+      if (result?.status === RESULT.message) {
+        if (result.message === "unverified") {
+          alert(
+            "Unverified admin!! Please verify and check your email for the Verification Code"
+          );
+          router.push(`${adminRoutes.VERIFICATION.path}?email=${form.email}`);
+          return;
+        }
+        return setErrorMessage(result.message);
+      }
 
-      // if (result.status === RESULT.data) {
-      router.replace(adminRoutes.DASHBOARD.path);
-      //   } else if (result.status === RESULT.success) {
-      //    router.replace(adminRoutes.DASHBOARD.path);
-      //   }
+      if (result.status === RESULT.data) {
+        router.replace(adminRoutes.DASHBOARD.path);
+      } else if (result.status === RESULT.success) {
+        router.replace(adminRoutes.DASHBOARD.path);
+      }
     } catch (error: Error | any) {
       alert(`Something went wrong: ${error.message}`);
     } finally {
@@ -145,6 +158,11 @@ const AdminSignIn = () => {
             Forget Password?
           </Link>
         </article>
+
+        <ErrorComponent
+          errorMessage={errorMessage}
+          setErrorMessage={setErrorMessage}
+        />
 
         <CustomButton
           className="h-14 w-full mt-7 mb-10"

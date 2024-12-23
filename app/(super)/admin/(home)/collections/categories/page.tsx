@@ -14,6 +14,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { adminRoutes } from "@/data";
+import { fetchCategory } from "@/lib/actions/fetch/product";
+import { RESULT } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -21,7 +23,21 @@ const CategoriesPage = () => {
   const router = useRouter();
 
   const [fetchedCategories, setFetchedCategories] = useState<any>([]);
-  const [categories, setCategories] = useState<any>([]);
+  // const [categories, setCategories] = useState<any>([]);
+  const [categories, setCategories] = useState<any>([
+    // {
+    //   id: "CAT001",
+    //   name: "Laptop",
+    //   media: "<No Media>",
+    //   parent: "<No Parent>",
+    // },
+    // {
+    //   id: "CAT002",
+    //   name: "PC",
+    //   media: "<No Media>",
+    //   parent: "PC",
+    // },
+  ]);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,29 +52,16 @@ const CategoriesPage = () => {
   const fetchCategories = async () => {
     try {
       setIsLoading(true);
-      // const result = await adminFetchCategories();
-      // if (result.status === RESULT.error) return alert("Something Failed");
+      const result = await fetchCategory();
+      if (result?.status === RESULT.error) return alert("Something Failed");
+      if (result?.status === RESULT.message) return alert(result.message);
 
-      // if (result.status === RESULT.data) {
-      setFetchedCategories([
-        {
-          id: "CAT001",
-          title: "Laptop",
-          media: "<No Media>",
-          parent: "<No Parent>",
-        },
-        {
-          id: "CAT002",
-          title: "PC",
-          media: "<No Media>",
-          parent: "PC",
-        },
-      ]);
-      //   } else if (result.status === RESULT.success) {
-      //     router.replace(adminRoutes.CATEGORIES.path);
-      //   }
+      if (result?.status === RESULT.data) {
+        const { categoryList } = result.data;
+        setCategories(categoryList);
+      }
     } catch (error: Error | any) {
-      console.log(error.message);
+      console.error(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -71,8 +74,8 @@ const CategoriesPage = () => {
     const filteredCategories = fetchedCategories.filter(
       (category: any) =>
         category.id.toLowerCase().includes(normalizedSearchValue) ||
-        category.title.toLowerCase().includes(normalizedSearchValue) ||
-        category.parent.includes(normalizedSearchValue)
+        category.name.toLowerCase().includes(normalizedSearchValue)
+      //  || category.parent.includes(normalizedSearchValue)
     );
 
     setCategories([...filteredCategories]);
@@ -122,7 +125,7 @@ const CategoriesPage = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">ID</TableHead>
-              <TableHead>Title</TableHead>
+              <TableHead>Name</TableHead>
               <TableHead>Media</TableHead>
               <TableHead className="text-right">Parent</TableHead>
             </TableRow>
@@ -131,9 +134,13 @@ const CategoriesPage = () => {
             {categories.map((category: any) => (
               <TableRow key={category.id} className="h-12">
                 <TableCell className="font-medium">{category.id}</TableCell>
-                <TableCell>{category.title}</TableCell>
-                <TableCell>{category.media}</TableCell>
-                <TableCell className="text-right">{category.parent}</TableCell>
+                <TableCell>{category.name}</TableCell>
+                <TableCell>
+                  {category.media ? category.media : "<No Media>"}
+                </TableCell>
+                <TableCell className="text-right">
+                  {category.parent ? category.parent : "<No-Parent>"}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

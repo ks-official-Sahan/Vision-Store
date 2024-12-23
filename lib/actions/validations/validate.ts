@@ -45,6 +45,15 @@ export const validateAvailability = (
   return data ? null : `Please fill in the ${name ? name : "Field"}`;
 };
 
+export const validateSelection = (
+  data: any,
+  name?: string | undefined | null
+) => {
+  return !data || data === "select"
+    ? `Select the ${name ? name : "Value"}`
+    : null;
+};
+
 export const validateFiles = (
   data: Array<any>,
   name?: string | undefined | null

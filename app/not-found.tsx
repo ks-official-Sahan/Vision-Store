@@ -18,7 +18,7 @@ export default function NotFound() {
         // className={buttonVariants({})}
         // className={"bg-black dark:bg-white"}
       >
-        <span className="dark:text-black-200 text-white">Back to homepage</span>
+        <span className="dark:text-black-200 text-gray-500">Back to homepage</span>
       </Link>
     </div>
   );

@@ -3,6 +3,7 @@ type NavItemProps = {
   title: string;
   path?: string;
   isSideBarItem?: boolean;
+  openSearchModal?: () => void;
 };
 
 type NavBarProps = {
@@ -12,6 +13,8 @@ type NavBarProps = {
   toggle: () => void;
   data: Navigation;
   type: "user" | "admin";
+  isUser?: boolean;
+  openSearchModal?: () => void;
 };
 
 type SideBarProps = {
@@ -21,6 +24,7 @@ type SideBarProps = {
   close: () => void;
   data: Navigation;
   type: "user" | "admin";
+  isUser?: boolean;
 };
 
 type Navigation = {

@@ -8,7 +8,7 @@ const PathNav = ({
   data: Array<object>;
   userType?: "user" | "admin";
 }) => {
-  console.log(JSON.stringify(data));
+  // console.log(JSON.stringify(data));
 
   return (
     <nav className="text-sm text-[12px] text-gray-500 -mt-3 mb-4">

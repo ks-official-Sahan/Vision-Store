@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -8,12 +9,26 @@ import SideBar from "../SideBar";
 import NavBar from "./NavBar";
 import { routes, Site, siteNavigations } from "@/data";
 import WrapperBody from "@/components/wrapper/WrapperBody";
+import { isUserAvailable } from "@/lib/actions/fetch/auth";
+import SearchModal from "../../SearchModal";
 
 const Navigation = () => {
   const [currentPath, setCurrentPath] = useState("");
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const path = usePathname();
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const openSearchModal = () => setIsSearchOpen(true);
+  const closeSearchModal = () => setIsSearchOpen(false);
+
+  const [isUser, setIsUser] = useState(false);
+  useEffect(() => {
+    isUserAvailable().then((res) => {
+      setIsUser(res);
+    });
+  }, []);
 
   const [opened, { toggle, close }] = useDisclosure();
 
@@ -22,6 +37,9 @@ const Navigation = () => {
       if (path === routes[page].path)
         setCurrentPath(routes[page].title.toLowerCase());
     }
+    isUserAvailable().then((res) => {
+      setIsUser(res);
+    });
   }, [path]);
 
   useEffect(() => {
@@ -61,6 +79,7 @@ const Navigation = () => {
         opened={opened}
         close={close}
         currentPath={currentPath}
+        isUser={isUser}
       />
 
       {/* <div className="w-full flex flex-row items-center"> */}
@@ -71,7 +90,11 @@ const Navigation = () => {
           currentPath={currentPath}
           opened={opened}
           toggle={toggle}
+          isUser={isUser}
+          openSearchModal={openSearchModal}
         />
+
+        <SearchModal isOpen={isSearchOpen} onClose={closeSearchModal} />
       </WrapperBody>
       {/* </div> */}
     </motion.header>

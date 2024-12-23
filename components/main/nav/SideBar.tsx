@@ -4,8 +4,16 @@ import React from "react";
 import NavItem from "./NavItem";
 import { Drawer } from "@mantine/core";
 import ThemeSwitch from "@/components/theme/theme-switch";
+import { routes } from "@/data";
 
-const SideBar = ({ currentPath, title, opened, close, data }: SideBarProps) => {
+const SideBar = ({
+  currentPath,
+  title,
+  opened,
+  close,
+  data,
+  isUser,
+}: SideBarProps) => {
   return (
     <Drawer.Root offset={8} radius="md" opened={opened} onClose={close}>
       <Drawer.Overlay />
@@ -25,14 +33,42 @@ const SideBar = ({ currentPath, title, opened, close, data }: SideBarProps) => {
           <div
             className={`px-[4px] flex flex-col items-center  text-[14px] h-auto mt-6 gap-4 w-full`}
           >
-            {data.sidebar.map((item) => (
+            {data.sidebar.map((item) => {
+              return (
+                <NavItem
+                  key={item.title}
+                  currentPath={currentPath}
+                  title={item.title}
+                  isSideBarItem={true}
+                />
+              );
+            })}
+            {isUser ? (
+              // Show "Account" and "Logout" for authenticated users
+              <>
+                <NavItem
+                  key="account"
+                  currentPath={currentPath}
+                  title={routes.ACCOUNT.title}
+                  isSideBarItem={true}
+                />
+                <NavItem
+                  key="logout"
+                  currentPath={currentPath}
+                  title={routes.LOGOUT.title}
+                  isSideBarItem={true}
+                />
+              </>
+            ) : (
+              // Show "Sign In" for unauthenticated users
               <NavItem
-                key={item.title}
+                key="sign-in"
                 currentPath={currentPath}
-                title={item.title}
+                title={routes.SIGN_IN.title}
+                path={`${routes.SIGN_IN.path}`}
                 isSideBarItem={true}
               />
-            ))}
+            )}
           </div>
         </Drawer.Body>
       </Drawer.Content>

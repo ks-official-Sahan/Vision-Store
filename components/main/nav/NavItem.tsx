@@ -1,7 +1,10 @@
 "use client";
 
+import { HOST } from "@/data";
+import { getData } from "@/lib/api";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 
 const NavItem = ({
@@ -9,13 +12,22 @@ const NavItem = ({
   title,
   path = title === "Home" ? "" : title.toLowerCase(),
   isSideBarItem = false,
+  openSearchModal,
 }: NavItemProps) => {
   const isCurrentPath = currentPath === title.toLowerCase();
 
+  const handlePress = () => {
+    if (!isSideBarItem) {
+      if (isCurrentPath) return;
+      if (title === "Search") return openSearchModal && openSearchModal();
+    }
+    redirect(isCurrentPath ? "" : `${HOST}/${path}`);
+  };
+
   return (
-    <Link
+    <div
       className={isSideBarItem ? "w-full" : ""}
-      href={isCurrentPath ? "" : `/${path}`}
+      // href={isCurrentPath ? "" : `/${path as string}`}
     >
       <Button
         variant="ghost"
@@ -26,10 +38,11 @@ const NavItem = ({
         } rounded-full ${
           isSideBarItem ? "h-[40px] w-full " : "h-[33px]"
         } border-[#0000001f] dark:border-[#ffffff1f] text-center`}
+        onPress={handlePress}
       >
         {title}
       </Button>
-    </Link>
+    </div>
   );
 };
 

@@ -9,6 +9,7 @@ interface SelectFieldProps {
   title?: string;
   data?: string[] | Array<any>;
   handleValueChange?: (...props: any[]) => void;
+  value?: string | number;
   otherStyle?: string;
   required?: boolean;
   error?: string | null;
@@ -24,6 +25,7 @@ const SelectField = ({
   title,
   data,
   handleValueChange,
+  value,
   otherStyle,
   required,
   error,
@@ -57,6 +59,7 @@ const SelectField = ({
           onChange={handleValueChange}
           className="flex-1 bg-transparent border-none outline-none text-gray-700 dark:text-white font-psemibold"
           {...props}
+          value={value ? value : "select"}
         >
           <option className="text-black bg-white/10" value="select">
             Select
@@ -64,10 +67,11 @@ const SelectField = ({
           {data?.map((item) => (
             <option
               className="text-black bg-white/10"
-              key={item.value}
-              value={item.value}
+              key={item.value ? item.value : item.id ? item.id : item.name}
+              value={item.value ? item.value : item.id ? item.id : item.name}
+              // selected={(item.value ? item.value : item.name) === value}
             >
-              {item.title}
+              {item.title ? item.title : item.name}
             </option>
           ))}
         </select>
